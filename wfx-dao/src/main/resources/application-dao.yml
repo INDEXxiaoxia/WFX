@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://localhost:3306/wfx?useSSL=false&serverTimezone=UTC #连接数据库的地址
+      username: root #数据库的登录帐号
+      password: 123456 #数据库的登录密码
+      driverClassName: com.mysql.cj.jdbc.Driver
+      initialSize: 5  #初始建立连接数量
+      minIdle: 5  #最小连接数量
+      maxActive: 20 #最大连接数量
+      maxWait: 10000  #获取连接最大等待时间，毫秒
+      testOnBorrow: true #申请连接时检测连接是否有效
+      testOnReturn: false #归还连接时检测连接是否有效
+      timeBetweenEvictionRunsMillis: 60000 #配置间隔检测连接是否有效的时间（单位是毫秒）
+      minEvictableIdleTimeMillis: 300000  #连接在连接池的最小生存时间（毫秒）
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml,classpath*:**/*Mapper.xml
+  #IDENTITY: MYSQL #取回主键的方式
+  #notEmpty: false #insert和update中，是否判断字符串类型!=''
+  configuration:
+    #进行自动映射时，数据以下划线命名，如数据库返回的"order_address"命名字段是否映射为class的"orderAddress"字段。默认为false
+    map-underscore-to-camel-case: true
+    # 输出SQL执行语句 （log4j2本身可以输出sql语句）
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #这种带结果集
+  type-aliases-package: com.example.model
+pagehelper:
+  helper-dialect: mysql
+  offset-as-page-num: true
+  row-bounds-with-count: true #使用RowBounds分页，需要设置为true
+  #page-size-zero: false
+  reasonable: true

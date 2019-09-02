@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>列表</title>
+    <link rel="stylesheet" href="../static/plugins/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+</head>
+<body>
+<table class="table table-hover table-striped">
+    <tr>
+        <th>菜单名称</th>
+        <th>菜单链接</th>
+        <th>菜单描述</th>
+    </tr>
+    <tr th:each="module : ${pageInfo.list}">
+        <td th:text="${module.moduleName}"></td>
+        <td th:text="${module.linkUrl}"></td>
+        <td th:text="${module.moduleDesc}"></td>
+    </tr>
+</table>
+</body>
+</html>
