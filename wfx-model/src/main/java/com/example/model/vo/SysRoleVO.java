@@ -13,4 +13,5 @@ public class SysRoleVO {
     private List<UserInfo> userInfos;
     @Transient
     private String userInfosString;//专门用于前端展示数据时，变量
+
 }

@@ -101,4 +101,9 @@ public class SysModuleServiceImpl implements SysModuleService {
         }
         return false;
     }
+
+    @Override
+    public List<SysModule> findModuleListByUserId(String userId) {
+        return sysModuleMapper.findModuleByUserId(userId);
+    }
 }

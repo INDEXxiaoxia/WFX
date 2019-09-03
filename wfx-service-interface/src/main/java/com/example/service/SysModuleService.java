@@ -13,4 +13,11 @@ public interface SysModuleService {
     List<ZTreeBean> findAllMenus();
 
     List<ZTreeBean> findModuleByRoleId(String roleId);
+
+    /**
+     * 根据用户ID 查询当前用户能看到的菜单列表
+     * @param userId
+     * @return
+     */
+     List<SysModule> findModuleListByUserId(String userId);
 }

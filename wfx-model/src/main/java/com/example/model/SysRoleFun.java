@@ -1,10 +1,18 @@
 package com.example.model;
 
 
-public class SysRoleFun {
+import lombok.Data;
 
-  private Long funId;
-  private String moduleId;
-  private String roleId;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Table
+@Data
+public class SysRoleFun {
+    @Id
+    private Long funId;
+    private String moduleId;
+    private String roleId;
+
 
 }

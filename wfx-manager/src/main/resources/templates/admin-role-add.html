@@ -28,28 +28,32 @@
 <body>
 <article class="page-container">
     <div class="col-md-6">
-        <form action="" method="post" class="form form-horizontal" id="form-admin-role-add">
+        <form action="/role/save" method="post" class="form form-horizontal" id="form-admin-role-add">
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>角色名称：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="" placeholder="" id="roleName" name="roleName">
+                    <input type="text" class="input-text" value="" placeholder="" id="roleName" th:name="roleName">
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3">备注：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="" placeholder="" id="" name="">
+                    <input th:name="roleDesc" type="text" class="input-text">
                 </div>
             </div>
+            <!-- 隐藏标签 用于接收参数和表单提交业务参数-->
+            <input id="moduleCodes" th:name="moduleCodes" type="hidden">
+            <input id="treeBeans" th:value="${treeBeans}" type="hidden">
             <div class="row cl">
-                <span>这是展示当前角色树型菜单的效果显示区域</span>
-                <input id="treeBeans" th:value="${treeBeans}" type="hidden">
-                <ul id="treeDemo" class="ztree"></ul>
+                <label class="form-label col-xs-4 col-sm-3">菜单权限</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <ul id="treeDemo" class="ztree "></ul>
+                </div>
             </div>
 
             <div class="row cl">
                 <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-                    <button type="submit" class="btn btn-success radius" id="admin-role-save" name="admin-role-save"><i
+                    <button type="submit" class="btn btn-success radius" id="admin-role-save"><i
                             class="icon-ok"></i> 确定
                     </button>
                 </div>
@@ -106,13 +110,83 @@
             onkeyup: false,
             focusCleanup: true,
             success: "valid",
-            submitHandler: function (form) {
-                $(form).ajaxSubmit();
+            submitHandler: function (form) { //只有当表单中，所有需要校验的输入框，都是正确后，才会进入到当前这个方法
+                //提交之前，先获取当前选中的所有菜单的ID
+                var ids = [];
+                var array = $.fn.zTree.getZTreeObj("treeDemo").getCheckedNodes(true);
+                for (var i = 0; i < array.length; i++) {
+                    ids.push(array[i].id);
+                }
+                //将树型菜单中选中的所有的菜单 code 赋值给 隐藏输入框 moduleCodes
+                $("#moduleCodes").val(ids);
+
+                // $(form).ajaxSubmit();
+
+                $.ajax({
+                    type: "post",
+                    url: "/role/save",
+                    contentType: "application/json; charset=utf-8",
+                    cache: false,
+                    async: false,
+                    data: JSON.stringify($(form).serializeFormJSON()), //转换成json数据
+                    success: function (resultData) {
+                        alert(resultData.message);
+                        if (resultData.success){
+                            parent.layer.close(parent.layer.getFrameIndex(window.name));
+                        }
+                    }
+                });
+
+                //关闭当前弹出框
                 var index = parent.layer.getFrameIndex(window.name);
                 parent.layer.close(index);
+
+                // var ids = [];
+                // var array = $.fn.zTree.getZTreeObj("treeDemo").getCheckedNodes(true);
+                // for (var i = 0; i < array.length; i++) {
+                //     ids.push(array[i].id);
+                // }
+                // $("#moduleCodes").val(ids);
+                // //提交数据到后台
+                // console.log("form-data============="+JSON.stringify($(form).serializeFormJSON()));
+                // $.ajax({
+                //     type: "post",
+                //     url: "/role/save",
+                //     contentType: "application/json; charset=utf-8",
+                //     cache: false,
+                //     async: false,
+                //     data: JSON.stringify($(form).serializeFormJSON()), //转换成json数据
+                //     success: function (resultData) {
+                //         if (resultData.success){
+                //             parent.layer.close(parent.layer.getFrameIndex(window.name));
+                //         }
+                //         alert(resultData.message);
+                //     }
+                // });
+
             }
         });
     });
+
+    (function ($) {
+        $.fn.serializeFormJSON = function () {
+
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
+    })(jQuery);
+
 </script>
 <!--/请在上方写此页面业务相关的脚本-->
 <script type="text/javascript">
@@ -145,7 +219,6 @@
         // });
 
     });
-
 </script>
 </body>
 </html>
