@@ -52,6 +52,11 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.32</version>
+        </dependency>
         <!-- 导入shiro框架-->
         <!--<dependency>-->
             <!--<groupId>org.apache.shiro</groupId>-->

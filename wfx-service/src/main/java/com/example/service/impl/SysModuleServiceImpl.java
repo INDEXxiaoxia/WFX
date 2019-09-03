@@ -6,6 +6,7 @@ import com.example.model.util.ZTreeBean;
 import com.example.service.SysModuleService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,35 +52,40 @@ public class SysModuleServiceImpl implements SysModuleService {
 
     @Override
     public List<ZTreeBean> findModuleByRoleId(String roleId) {
-        //查询出当前角色下，能看到的菜单列表
-        List<SysModule> hasPermByModule = sysModuleMapper.findModuleByRoleId(roleId);
         //查询所有给前端的菜单列表
         List<ZTreeBean> allMenus = findAllMenus();
-        //循环遍历所有的菜单列表，如果循环中菜单在hasPermByModule，则将checked设置为true
-        for (ZTreeBean allMenu : allMenus) {
-            //判断当前菜单是否属于这个角色的用户
-            if (checkedModulesContainsModule(hasPermByModule,allMenu)){
-                //设置具备这个权限的菜单 设置为 选中
-                allMenu.setChecked(true);
-                //同时将这个菜单的父级菜单设置为 展开。找到它的父级菜单对象，再将这个对象的open设置为true
-                ZTreeBean parentTree = findParentZTreeByParentCode(allMenus,allMenu.getPId());
-                if(parentTree != null){
-                    parentTree.setOpen(true);
+        if (StringUtils.isNotBlank(roleId)) {
+            //查询出当前角色下，能看到的菜单列表
+            List<SysModule> hasPermByModule = sysModuleMapper.findModuleByRoleId(roleId);
+
+            //循环遍历所有的菜单列表，如果循环中菜单在hasPermByModule，则将checked设置为true
+            for (ZTreeBean allMenu : allMenus) {
+                //判断当前菜单是否属于这个角色的用户
+                if (checkedModulesContainsModule(hasPermByModule, allMenu)) {
+                    //设置具备这个权限的菜单 设置为 选中
+                    allMenu.setChecked(true);
+                    //同时将这个菜单的父级菜单设置为 展开。找到它的父级菜单对象，再将这个对象的open设置为true
+                    ZTreeBean parentTree = findParentZTreeByParentCode(allMenus, allMenu.getPId());
+                    if (parentTree != null) {
+                        parentTree.setOpen(true);
+                    }
                 }
             }
         }
+
         return allMenus;
     }
 
     /**
      * 根据当前设置选中的菜单对象，来找它的父级菜单
+     *
      * @param allMenus
      * @param parentModule
      * @return
      */
-    private ZTreeBean findParentZTreeByParentCode(List<ZTreeBean> allMenus,String parentModule){
+    private ZTreeBean findParentZTreeByParentCode(List<ZTreeBean> allMenus, String parentModule) {
         for (ZTreeBean allMenu : allMenus) {
-            if(parentModule.equals(allMenu.getId())){
+            if (parentModule.equals(allMenu.getId())) {
                 return allMenu;
             }
         }
@@ -87,9 +93,9 @@ public class SysModuleServiceImpl implements SysModuleService {
     }
 
     //自定义方法：判断参数2是否在参数1的集合中
-    private boolean checkedModulesContainsModule(List<SysModule> list,ZTreeBean zTreeBean){
+    private boolean checkedModulesContainsModule(List<SysModule> list, ZTreeBean zTreeBean) {
         for (SysModule sysModule : list) {
-            if (sysModule.getModuleCode().equals(zTreeBean.getId())){
+            if (sysModule.getModuleCode().equals(zTreeBean.getId())) {
                 return true;
             }
         }

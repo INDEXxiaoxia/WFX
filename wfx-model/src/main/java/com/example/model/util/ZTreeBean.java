@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class ZTreeBean {
     private String id;
-    private String pId;
+    private String pId;// pid
     private String name;
     private Boolean open;
     private Boolean checked;//true:选中，false:不选中
