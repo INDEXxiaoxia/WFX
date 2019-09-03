@@ -10,9 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/login")
 public class LoginController {
 
-    @RequestMapping("/testWfx")
-    public String testWfx(HttpServletRequest request,String userName,String password){
+    @RequestMapping("/index")
+    public String index(){
+        return "index";
+    }
 
-        return null;
+    @RequestMapping("/welcome")
+    public String welcome(){
+        return "welcome";
     }
 }
