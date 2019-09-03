@@ -7,7 +7,7 @@ spring:
     servlet:
       content-type: text/html
     cache: false
-shiro:
-  web:
-    enabled: true
-  loginUrl: /login.html
+#shiro:
+#  web:
+#    enabled: true
+#  loginUrl: /login.html

@@ -9,8 +9,13 @@ public class IndexController {
 
 
     @RequestMapping("/role")
-    public String indexRole(){
+    public String indexRole() {
         return "admin-role";
+    }
+
+    @RequestMapping("/admin-role-add")
+    public String adminRoleAdd() {
+        return "admin-role-add";
     }
 
 }
