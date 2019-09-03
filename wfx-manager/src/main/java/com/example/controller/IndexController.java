@@ -16,10 +16,10 @@ public class IndexController {
     @Autowired
     private SysModuleService sysModuleService;
 
-    @RequestMapping("/role")
-    public String indexRole() {
-        return "admin-role";
-    }
+//    @RequestMapping("/role")
+//    public String indexRole() {
+//        return "admin-role";
+//    }
 
     @RequestMapping("/admin-role-add")
     public String adminRoleAdd(Model model) {
