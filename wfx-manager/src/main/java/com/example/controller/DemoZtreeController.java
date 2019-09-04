@@ -18,7 +18,7 @@ public class DemoZtreeController {
 
     @RequestMapping("/init")
     public String initZtree() {
-        return "demo/demo-ztree";
+        return "demo/demo-ztree2";
     }
 
     @RequestMapping("/findMenuList")
