@@ -21,18 +21,28 @@ public class LoginController {
         return "welcome";
     }
 
+//    @RequestMapping("/index")
+//    public String initIndex(){
+//        return "index";
+//    }
 
     @RequestMapping("/login")
     public String login(UserInfo userInfo) {
         UsernamePasswordToken token = new UsernamePasswordToken(userInfo.getAccount(), userInfo.getPassword());
-        SecurityUtils.getSubject().login(token);
-        return "index";
+        try {
+            SecurityUtils.getSubject().login(token);
+            return "index";
+        }catch (Exception e){
+            return "redirect:/welcome";
+        }
+
     }
 
     @RequestMapping("/logout")
     public String logout() {
         SecurityUtils.getSubject().logout();
-        return "redirect:/welcome";
+        //退出操作成功后，做了重定向的操作访问是一个 完全不存在的请求。
+        return "redirect:/welcome";//这个重定向的请求可以写任何url，但是不能写被shiro进行了anon的请求
     }
 
     @Autowired

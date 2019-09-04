@@ -46,6 +46,7 @@ public class ShiroConfig {
     @Bean
     public WfxRealm wfxRealm() {
         WfxRealm wfxRealm =  new WfxRealm();
+        //给realm认证类，添加加密方式。加密原理：md5
         wfxRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         System.out.println("=================自定义realm构建成功");
         return wfxRealm;
@@ -54,8 +55,8 @@ public class ShiroConfig {
     @Bean
     public HashedCredentialsMatcher hashedCredentialsMatcher(){
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-        hashedCredentialsMatcher.setHashAlgorithmName("md5");
-        hashedCredentialsMatcher.setHashIterations(56);
+        hashedCredentialsMatcher.setHashAlgorithmName("md5");//设置加密方式
+        hashedCredentialsMatcher.setHashIterations(56);//加密循环的次数
         return hashedCredentialsMatcher;
     }
 
