@@ -3,6 +3,7 @@ package com.example;
 import com.example.model.SysModule;
 import com.example.service.SysModuleService;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,6 @@ public class WfxManagerApplicationTests {
             System.out.println(sysModule);
         }
     }
+
 
 }

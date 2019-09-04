@@ -1,7 +1,9 @@
 package com.example.config;
 
 import com.example.service.WfxRealm;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -9,6 +11,9 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Configuration//相当于是一个xml文件
 public class ShiroConfig {
@@ -22,6 +27,8 @@ public class ShiroConfig {
         chain.addPathDefinition("/plugins/**", "anon");
         chain.addPathDefinition("/lib/**", "anon");
         chain.addPathDefinition("/static/**", "anon");
+        chain.addPathDefinition("/login/login*","anon");
+        chain.addPathDefinition("/login/logout*","anon");
         //除了以上的请求外，其它请求都需要登录
         chain.addPathDefinition("/**", "authc");
         return chain;
@@ -39,8 +46,17 @@ public class ShiroConfig {
     @Bean
     public WfxRealm wfxRealm() {
         WfxRealm wfxRealm =  new WfxRealm();
-
+        wfxRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        System.out.println("=================自定义realm构建成功");
         return wfxRealm;
+    }
+    // 3.1 配置salt加密
+    @Bean
+    public HashedCredentialsMatcher hashedCredentialsMatcher(){
+        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+        hashedCredentialsMatcher.setHashAlgorithmName("md5");
+        hashedCredentialsMatcher.setHashIterations(56);
+        return hashedCredentialsMatcher;
     }
 
     // 4.初始化Shiro的生命周期
