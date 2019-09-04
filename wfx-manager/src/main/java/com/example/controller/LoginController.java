@@ -23,20 +23,19 @@ public class LoginController {
 
 
     @RequestMapping("/login")
-    public String login(UserInfo userInfo){
-        UsernamePasswordToken token = new UsernamePasswordToken(userInfo.getAccount(),userInfo.getPassword());
+    public String login(UserInfo userInfo) {
+        UsernamePasswordToken token = new UsernamePasswordToken(userInfo.getAccount(), userInfo.getPassword());
         SecurityUtils.getSubject().login(token);
         return "index";
     }
 
     @RequestMapping("/logout")
-
-    public String logout(){
+    public String logout() {
         SecurityUtils.getSubject().logout();
         return "redirect:/welcome";
     }
 
-        @Autowired
+    @Autowired
     private SysModuleService sysModuleService;
 
     @RequestMapping("/index")

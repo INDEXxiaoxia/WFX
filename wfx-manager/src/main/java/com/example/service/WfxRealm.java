@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.model.UserInfo;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
