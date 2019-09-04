@@ -104,6 +104,36 @@ public class SysModuleServiceImpl implements SysModuleService {
 
     @Override
     public List<SysModule> findModuleListByUserId(String userId) {
-        return sysModuleMapper.findModuleByUserId(userId);
+        // 根据当前用户ID查询 角色权限范围内的 菜单列表
+        List<SysModule> moduleList =  sysModuleMapper.findModuleByUserId(userId);
+        //对查询出来的菜单列表进行结构改造
+        //1.先根据顶层菜单的ID查询直接子菜单
+        List<SysModule> firstMenus = findModuleListByParentModule(moduleList,"0101");// 这是查询的第1层菜单
+        //2.再循环每一个子菜单 ，查询子菜单的下一级子菜单
+        for (SysModule firstMenu : firstMenus) {// 查询的是第2层菜单
+            List<SysModule> childModules = findModuleListByParentModule(moduleList,firstMenu.getModuleCode());
+            //将查询出来的子菜单，赋给当前的父菜单
+            firstMenu.setChildModules(childModules);
+        }
+
+        return firstMenus;
+    }
+
+    /**
+     * 工具类：
+     *  根据父级菜单ID，查询父级下的所有子级菜单
+     * @param list
+     * @param parentModule
+     * @return
+     */
+    private List<SysModule> findModuleListByParentModule(List<SysModule> list,String parentModule){
+        List<SysModule> childList = new ArrayList<SysModule>();//保存查询出来的子级菜单的结果集
+
+        for (SysModule sysModule : list) {
+            if (sysModule.getParentModule().equals(parentModule)){
+                childList.add(sysModule);
+            }
+        }
+        return childList;
     }
 }

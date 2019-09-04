@@ -7,6 +7,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,10 +28,19 @@ public class LoginController {
 //    }
 
     @RequestMapping("/login")
-    public String login(UserInfo userInfo) {
+    public String login(Model model,UserInfo userInfo) {
         UsernamePasswordToken token = new UsernamePasswordToken(userInfo.getAccount(), userInfo.getPassword());
         try {
-            SecurityUtils.getSubject().login(token);
+            SecurityUtils.getSubject().login(token);//这一行操作成功，则表示用户登录成功
+
+
+            //这里来查询首页需要展示的菜单列表
+//            String userId = "23946448";
+
+            UserInfo userInfo1 = (UserInfo) SecurityUtils.getSubject().getPrincipal();
+            //1.根据当前登录的用户的用户ID查询当前用户能看到的菜单列表
+            List<SysModule> moduleList = sysModuleService.findModuleListByUserId(userInfo1.getUserId());
+            model.addAttribute("moduleList",moduleList);//将查询的菜单列表返回给界面
             return "index";
         }catch (Exception e){
             return "redirect:/welcome";
@@ -51,7 +61,7 @@ public class LoginController {
     @RequestMapping("/index")
     @ResponseBody
     public List<SysModule> index() {
-        String userId = "28486868";
+        String userId = "23946448";
         //假设当前登录的用户的user_id = 23946449
 
         //1.根据当前登录的用户的用户ID查询当前用户能看到的菜单列表

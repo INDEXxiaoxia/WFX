@@ -28,9 +28,7 @@ public class SysRoleController {
          *
          */
         List<SysRole> roleList = sysRoleService.findAll();
-
         model.addAttribute("roleList", roleList);
-
         return "admin-role";
     }
 
@@ -40,5 +38,11 @@ public class SysRoleController {
         //将参数保存到数据库
         sysRoleService.saveRole(role);
         return new Result(true,"操作成功");
+    }
+
+    @RequestMapping("/findRoleById")
+    public String findRoleById(String roleCode){
+        System.out.println("============");
+        return "admin-role-add";
     }
 }
