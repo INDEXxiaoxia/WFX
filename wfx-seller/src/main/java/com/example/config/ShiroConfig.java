@@ -1,11 +1,9 @@
 package com.example.config;
 
-import com.example.service.WfxRealm;
+import com.example.service.SellerRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
-import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -13,9 +11,6 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Configuration//相当于是一个xml文件
 public class ShiroConfig {
@@ -25,14 +20,12 @@ public class ShiroConfig {
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chain = new DefaultShiroFilterChainDefinition();
         //哪些请求可以匿名访问
-        chain.addPathDefinition("/demo/**", "anon");
-        chain.addPathDefinition("/plugins/**", "anon");
-        chain.addPathDefinition("/lib/**", "anon");
-        chain.addPathDefinition("/static/**", "anon");
-        chain.addPathDefinition("/login/login*", "anon");
+
+        chain.addPathDefinition("/static/**","anon");
+        chain.addPathDefinition("/login**","anon");
         chain.addPathDefinition("/login/logout*", "anon");
         //添加授权的控制(粗粒度权限控制）
-        chain.addPathDefinition("/menu/initMenu*", "roles[admin]");
+//        chain.addPathDefinition("/menu/initMenu*", "roles[admin]");
         //除了以上的请求外，其它请求都需要登录
         chain.addPathDefinition("/**", "authc");
         return chain;
@@ -48,22 +41,12 @@ public class ShiroConfig {
 
     // 3. 配置自定义的Realm
     @Bean
-    public WfxRealm wfxRealm() {
-        WfxRealm wfxRealm = new WfxRealm();
-        //给realm认证类，添加加密方式。加密原理：md5
-        wfxRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+    public SellerRealm wfxRealm() {
+        SellerRealm wfxRealm = new SellerRealm();
         System.out.println("=================自定义realm构建成功");
         return wfxRealm;
     }
 
-    // 3.1 配置salt加密
-    @Bean
-    public HashedCredentialsMatcher hashedCredentialsMatcher() {
-        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-        hashedCredentialsMatcher.setHashAlgorithmName("md5");//设置加密方式
-        hashedCredentialsMatcher.setHashIterations(56);//加密循环的次数
-        return hashedCredentialsMatcher;
-    }
 
     // 4.初始化Shiro的生命周期
     @Bean

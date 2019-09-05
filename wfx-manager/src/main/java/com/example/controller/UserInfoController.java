@@ -5,6 +5,7 @@ import com.example.model.UserInfo;
 import com.example.model.vo.Result;
 import com.example.service.SysRoleService;
 import com.example.service.UserInfoService;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class UserInfoController {
     }
 
     @RequestMapping("/initAdd")
-    @RequiresRoles(value = {"admin","user"})
+    @RequiresRoles(value = {"admin","user"},logical = Logical.OR)
     public String initAdd(Model model) {
         //进入到新增页面时，需要将所有角色列表查询出来，返回给界面
         List<SysRole> roleList = sysRoleService.findAll();

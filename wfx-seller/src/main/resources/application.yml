@@ -1,0 +1,6 @@
+# springboot在整合多模块进行协同开发时，加载各个模块中的application-xxx配置文件时，通过下面的配置进行关联和统一管理
+# 注意：如果使用 .yml 文件进行配置的话，则必须每个模块中的yml文件的前缀是 application- 开头
+# 下面的配置，只需要配置applicatoin-  后面的内容即可，进行相应模块中yml配置文件加载
+spring:
+  profiles:
+    active: dao,web
