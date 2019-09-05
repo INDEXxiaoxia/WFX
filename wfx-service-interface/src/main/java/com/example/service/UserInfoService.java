@@ -9,4 +9,6 @@ public interface UserInfoService {
     UserInfo findUserInfoByUserName(String userName);
 
     List<UserInfo> findListByParam(UserInfo userInfo);
+
+    void save(UserInfo userInfo);
 }

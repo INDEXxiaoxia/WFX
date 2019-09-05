@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>select下拉框动态展示数据</title>
+</head>
+<body>
+<form action="/role/save" method="post">
+    <select th:name="roleId">
+        <option th:each="role:${sysRoleList}" th:value="${role.roleCode}" th:text="${role.roleName}"></option>
+    </select>
+    <input type="submit" value="提交数据">
+</form>
+</body>
+</html>

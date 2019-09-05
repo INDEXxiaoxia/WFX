@@ -14,6 +14,7 @@ public class SysRole extends SysRoleVO {
     @Id
     private String roleCode;
     private String roleName;
+    private String roleFlag;
     private String roleDesc;
     private Long roleOrder;
     private Long roleType;

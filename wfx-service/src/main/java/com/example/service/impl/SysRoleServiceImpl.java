@@ -27,7 +27,7 @@ public class SysRoleServiceImpl implements SysRoleService {
 
     @Override
     public List<SysRole> findAll() {
-        List<SysRole> roleList =  sysRoleMapper.selectAll();
+        List<SysRole> roleList = sysRoleMapper.selectAll();
         for (SysRole sysRole : roleList) {
             //根据role的角色ID 查询角色下的所有用户列表
             List<UserInfo> userInfoList = userInfoMapper.findListByRoleId(sysRole.getRoleCode());
@@ -38,10 +38,10 @@ public class SysRoleServiceImpl implements SysRoleService {
         return roleList;
     }
 
-    private String getUserListOfUserName(List<UserInfo> userInfos){
+    private String getUserListOfUserName(List<UserInfo> userInfos) {
         StringBuffer sb = new StringBuffer();
         for (UserInfo userInfo : userInfos) {
-            sb.append(userInfo.getUserName()+",");
+            sb.append(userInfo.getUserName() + ",");
         }
         return sb.toString();
     }
@@ -50,7 +50,7 @@ public class SysRoleServiceImpl implements SysRoleService {
     public void saveRole(SysRole role) {//将数据添加到数据库中
         //1、创建一个新的角色(sys_role)
         long roleId = System.currentTimeMillis();//获取当前日期的时间戳（重复的概念非常中）
-        role.setRoleCode(roleId+"");
+        role.setRoleCode(roleId + "");
         role.setRoleType(2L);
         //添加角色
         sysRoleMapper.insert(role);
@@ -61,7 +61,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         for (String moduleCode : strings) {
             SysRoleFun sysRoleFun = new SysRoleFun();
             sysRoleFun.setModuleId(moduleCode);
-            sysRoleFun.setRoleId(roleId+"");
+            sysRoleFun.setRoleId(roleId + "");
             sysRoleFunMapper.insert(sysRoleFun);
         }
 
@@ -70,5 +70,10 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     public SysRole findRoleById(String roleCode) {
         return sysRoleMapper.selectByPrimaryKey(roleCode);
+    }
+
+    @Override
+    public List<SysRole> findRoleListByUserId(String userId) {
+        return sysRoleMapper.findRoleListByUserId(userId);
     }
 }

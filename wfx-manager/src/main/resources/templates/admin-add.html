@@ -128,22 +128,46 @@
             focusCleanup: true,
             success: "valid",
             submitHandler: function (form) {
-                $(form).ajaxSubmit({
-                    type: 'post',
-                    url: "xxxxxxx",
-                    success: function (data) {
-                        layer.msg('添加成功!', {icon: 1, time: 1000});
-                    },
-                    error: function (XmlHttpRequest, textStatus, errorThrown) {
-                        layer.msg('error!', {icon: 1, time: 1000});
+                $.ajax({
+                    type: "post",
+                    url: "/user/save",
+                    contentType: "application/json; charset=utf-8",
+                    cache: false,
+                    async: false,
+                    data: JSON.stringify($(form).serializeFormJSON()), //转换成json数据
+                    success: function (resultData) {
+                        alert(resultData.message);
+                        if (resultData.success){
+                            parent.layer.close(parent.layer.getFrameIndex(window.name));
+                        }
                     }
                 });
-                var index = parent.layer.getFrameIndex(window.name);
-                parent.$('.btn-refresh').click();
-                parent.layer.close(index);
+                // var index = parent.layer.getFrameIndex(window.name);
+                // parent.$('.btn-refresh').click();
+                // parent.layer.close(index);
             }
         });
     });
+
+
+    (function ($) {
+        $.fn.serializeFormJSON = function () {
+
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
+    })(jQuery);
 </script>
 <!--/请在上方写此页面业务相关的脚本-->
 </body>
