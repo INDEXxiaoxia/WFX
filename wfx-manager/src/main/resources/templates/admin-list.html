@@ -32,8 +32,8 @@
 <div class="page-container">
     <form action="/user/queryByparam" method="post">
         <div class="text-c">
-            <input type="text" class="input-text" style="width:250px" placeholder="输入用户名称" th:name="userName" th:value="${userInfo.userName}">
-            <input type="text" class="input-text" style="width:250px" placeholder="请输入用户帐号" name="account" th:value="${userInfo.account}">
+            <input type="text" class="input-text" style="width:250px" placeholder="输入用户名称" th:name="userName" th:value="${userInfo}?${userInfo.userName}:''">
+            <input type="text" class="input-text" style="width:250px" placeholder="请输入用户帐号" name="account" th:value="${userInfo}?${userInfo.account}:''">
             <button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户
             </button>
         </div>

@@ -1,6 +1,8 @@
 package com.example.controller;
 
+import com.example.model.SysRole;
 import com.example.model.UserInfo;
+import com.example.service.SysRoleService;
 import com.example.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,15 +17,12 @@ public class UserInfoController {
 
     @Autowired
     private UserInfoService userInfoService;
+    @Autowired
+    private SysRoleService sysRoleService;
 
     @RequestMapping("/initList")
     public String initList(Model model) {
         List<UserInfo> userInfoList = userInfoService.findListByParam(null);//执行不带条件查询操作
-        UserInfo userInfo = null;
-        if (userInfo == null){
-            userInfo = new UserInfo();
-        }
-        model.addAttribute("userInfo",userInfo);
         model.addAttribute("userInfoList",userInfoList);
         return "admin-list";
     }
@@ -33,9 +32,6 @@ public class UserInfoController {
     public String queryByparam(UserInfo userInfo,Model model){
         List<UserInfo> userInfoList = userInfoService.findListByParam(userInfo);//执行不带条件查询操作
         //将查询的条件再次传回，实现条件回显
-        if (userInfo == null){
-            userInfo = new UserInfo();
-        }
         model.addAttribute("userInfo",userInfo);
         model.addAttribute("userInfoList",userInfoList);
         return "admin-list";
@@ -43,13 +39,11 @@ public class UserInfoController {
 
 
 
-
-
-
-
     @RequestMapping("/initAdd")
-    public String initAdd() {
-
+    public String initAdd(Model model) {
+        //进入到新增页面时，需要将所有角色列表查询出来，返回给界面
+        List<SysRole> roleList = sysRoleService.findAll();
+        model.addAttribute("roleList",roleList);
         return "admin-add";
     }
 

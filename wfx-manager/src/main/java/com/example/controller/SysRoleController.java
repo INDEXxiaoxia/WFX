@@ -6,6 +6,7 @@ import com.example.model.util.ZTreeBean;
 import com.example.model.vo.Result;
 import com.example.service.SysModuleService;
 import com.example.service.SysRoleService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,9 +50,13 @@ public class SysRoleController {
     @RequestMapping("/findRoleById")
     public String findRoleById(Model model,String roleCode){
         //根据角色编号查询角色信息
-        SysRole sysRole = sysRoleService.findRoleById(roleCode);
         List<ZTreeBean> treeBeans = sysModuleService.findModuleByRoleId(roleCode);
-        model.addAttribute("sysRole",sysRole);
+        if (StringUtils.isNotBlank(roleCode)){
+            SysRole sysRole = sysRoleService.findRoleById(roleCode);
+            model.addAttribute("sysRole",sysRole);
+        }else {
+            model.addAttribute("sysRole",new SysRole());
+        }
         model.addAttribute("treeBeans", JSONArray.toJSONString(treeBeans));
         return "admin-role-add";
     }
