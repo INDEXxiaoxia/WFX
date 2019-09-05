@@ -1,7 +1,10 @@
 package com.example.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.example.model.SysRole;
+import com.example.model.util.ZTreeBean;
 import com.example.model.vo.Result;
+import com.example.service.SysModuleService;
 import com.example.service.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +21,9 @@ public class SysRoleController {
 
     @Autowired
     private SysRoleService sysRoleService;
+
+    @Autowired
+    private SysModuleService sysModuleService;
 
     @RequestMapping("/findAll")
     public String findAll(Model model) {
@@ -41,8 +47,12 @@ public class SysRoleController {
     }
 
     @RequestMapping("/findRoleById")
-    public String findRoleById(String roleCode){
-        System.out.println("============");
+    public String findRoleById(Model model,String roleCode){
+        //根据角色编号查询角色信息
+        SysRole sysRole = sysRoleService.findRoleById(roleCode);
+        List<ZTreeBean> treeBeans = sysModuleService.findModuleByRoleId(roleCode);
+        model.addAttribute("sysRole",sysRole);
+        model.addAttribute("treeBeans", JSONArray.toJSONString(treeBeans));
         return "admin-role-add";
     }
 }

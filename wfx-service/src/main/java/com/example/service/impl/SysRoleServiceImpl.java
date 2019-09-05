@@ -66,4 +66,9 @@ public class SysRoleServiceImpl implements SysRoleService {
         }
 
     }
+
+    @Override
+    public SysRole findRoleById(String roleCode) {
+        return sysRoleMapper.selectByPrimaryKey(roleCode);
+    }
 }

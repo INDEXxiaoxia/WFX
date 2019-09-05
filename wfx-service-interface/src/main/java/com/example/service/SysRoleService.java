@@ -9,4 +9,6 @@ public interface SysRoleService {
     List<SysRole> findAll();
 
     void saveRole(SysRole role);
+
+    SysRole findRoleById(String roleCode);
 }

@@ -29,16 +29,17 @@
 <article class="page-container">
     <div class="col-md-6">
         <form action="/role/save" method="post" class="form form-horizontal" id="form-admin-role-add">
+            <input type="hidden" th:name="roleCode" th:value="${sysRole.roleCode}">
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>角色名称：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="" placeholder="" id="roleName" th:name="roleName">
+                    <input type="text" class="input-text" th:value="${sysRole.roleName}" placeholder="" id="roleName" th:name="roleName">
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3">备注：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input th:name="roleDesc" type="text" class="input-text">
+                    <input th:name="roleDesc" th:value="${sysRole.roleDesc}" type="text" class="input-text">
                 </div>
             </div>
             <!-- 隐藏标签 用于接收参数和表单提交业务参数-->

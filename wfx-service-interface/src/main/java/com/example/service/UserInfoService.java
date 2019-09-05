@@ -8,5 +8,5 @@ public interface UserInfoService {
 
     UserInfo findUserInfoByUserName(String userName);
 
-    List<UserInfo> findListByParam();
+    List<UserInfo> findListByParam(UserInfo userInfo);
 }
