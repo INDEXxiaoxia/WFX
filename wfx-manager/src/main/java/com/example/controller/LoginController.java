@@ -16,6 +16,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/login")
 public class LoginController {
+    @Autowired
+    private SysModuleService sysModuleService;
 
     @RequestMapping("/welcome")
     public String welcome() {
@@ -55,21 +57,18 @@ public class LoginController {
         return "redirect:/welcome";//这个重定向的请求可以写任何url，但是不能写被shiro进行了anon的请求
     }
 
-    @Autowired
-    private SysModuleService sysModuleService;
-
-    @RequestMapping("/index")
-    @ResponseBody
-    public List<SysModule> index() {
-        String userId = "23946448";
-        //假设当前登录的用户的user_id = 23946449
-
-        //1.根据当前登录的用户的用户ID查询当前用户能看到的菜单列表
-        List<SysModule> moduleList = sysModuleService.findModuleListByUserId(userId);
-        //2.遍历菜单列表，动态展示菜单数据(已经是当前用户能看的到的菜单）
-        return moduleList;
-
-
-//        return "index";
-    }
+//    @RequestMapping("/index")
+//    @ResponseBody
+//    public List<SysModule> index() {
+//        String userId = "23946448";
+//        //假设当前登录的用户的user_id = 23946449
+//
+//        //1.根据当前登录的用户的用户ID查询当前用户能看到的菜单列表
+//        List<SysModule> moduleList = sysModuleService.findModuleListByUserId(userId);
+//        //2.遍历菜单列表，动态展示菜单数据(已经是当前用户能看的到的菜单）
+//        return moduleList;
+//
+//
+////        return "index";
+//    }
 }

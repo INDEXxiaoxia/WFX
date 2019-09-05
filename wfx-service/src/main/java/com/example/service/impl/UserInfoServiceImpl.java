@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class UserInfoServiceImpl implements UserInfoService {
@@ -20,5 +22,11 @@ public class UserInfoServiceImpl implements UserInfoService {
         Example example = new Example(UserInfo.class);
         example.and().andEqualTo("account",userName);
         return userInfoMapper.selectOneByExample(example);
+    }
+
+    @Override
+    public List<UserInfo> findListByParam() {
+
+        return userInfoMapper.selectAll();
     }
 }

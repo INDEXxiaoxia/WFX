@@ -60,8 +60,9 @@ public class UserInfo {
   }
 
 
+  private String[] userTypeArray = {"客服账号","管理账号","内置账号","财务账号","物流账号"};
   public String getUserType() {
-    return userType;
+    return userTypeArray[Integer.parseInt(userType)-1];//在这里，对状态类型进行统一修改
   }
 
   public void setUserType(String userType) {
