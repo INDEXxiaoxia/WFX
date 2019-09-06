@@ -1,0 +1,15 @@
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <base th:href="${#request.getContextPath()}+'/'">
+    <title>文件上传</title>
+</head>
+<body>
+    <form action="/demo/fileUpload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="上传图片">
+    </form>
+    <br/>
+    <img th:src="${imgUrl}" width="300px" style="border: #0e78c9 1px">
+</body>
+</html>
