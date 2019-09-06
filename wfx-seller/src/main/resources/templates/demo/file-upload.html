@@ -6,8 +6,12 @@
 </head>
 <body>
     <form action="/demo/fileUpload" method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="上传图片">
+        <input type="file" name="file"><br/>
+        <input type="file" name="file1"><br/>
+        <input type="file" name="file2"><br/>
+        <input type="text" name="goodName"><br/>
+        <input type="text" name="promoteDesc"><br/>
+        <input type="submit" value="提交商品信息">
     </form>
     <br/>
     <img th:src="${imgUrl}" width="300px" style="border: #0e78c9 1px">

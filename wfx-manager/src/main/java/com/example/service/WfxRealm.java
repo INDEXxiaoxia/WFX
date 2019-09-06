@@ -28,49 +28,47 @@ public class WfxRealm extends AuthorizingRealm {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    private static final String REDIS_AUTHORIZATION_KEY_ACCOUNT = "redis_authorization_key_account";
+    private static final String REDIS_ROLELIST = "redis_roleList";//保存所有用户的角色列表（key)
+    private static final String REDIS_PERMISSIONLIST = "redis_permisonList";//保存所有用户的权限列表(key)
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        //            当结合系统来完成授权的功能时，当前登录的用户，需要从数据库中查询出它的 角色列表和权限列表
-//                授权的思路：
-//                    1.先根据当前登录的用户ID，查询出他所具备的角色列表
-//                        * 将查询出来的角色列表（角色标识。通常不允许出来中文）(角色标识：roleFlag)
-        //获取当前登录的用户信息
+
+        //1、获取当前登录的用户信息
         UserInfo userInfo = (UserInfo) SecurityUtils.getSubject().getPrincipal();
 
 //        1.当每次进入到授权验证方法时，先去redis中查询
-        //根据这个key取出的值，应该是一个hashmap类型。这hashmap会保存两条数据，分别key=角色列表和key=权限列表
-        HashMap<String, List<String>> authorizitionMap = (HashMap<String, List<String>>) redisTemplate.opsForValue().get(REDIS_AUTHORIZATION_KEY_ACCOUNT);
+            // 1)先根据用户的帐号，查询角色，如果redis中，查不出来，则去数据库中查
+            HashMap<String,List> rolesMap = (HashMap<String, List>) redisTemplate.boundValueOps(REDIS_ROLELIST);
+            //2）注意：获取的rolesMap，它里的key就是每个用户的帐号
+//            if (rolesMap == null){//说明所有用户的角色都没有被缓存,那么查数据库
+//
+//            }else{//如果这个不为空，说明有用户的角色是在缓存中，再次判断，当前用户的角色列表是否被缓存
+//                if(rolesMap.get(userInfo.getAccount()) == null){//说明 当前用户的角色没有被缓存，当前用户的权限也要查数据库
+//
+//                }
+//            }
+            //上面的判断合并之后，优化判断之后的效果，如下
         List<String> roleList = new ArrayList<>();
-        List<String> permissionList = new ArrayList<>();
-        if (authorizitionMap != null) {
-            //        2.根据当前登录的用户的唯一标识 （帐号)作为key去查询
-            roleList = authorizitionMap.get(userInfo.getAccount());
-            permissionList = authorizitionMap.get(userInfo.getAccount());
-            System.out.println("==============授权方法，从redis缓存中获取数据==============");
-
-        } else {
-            System.out.println("=============进入到授权方法。通过数据库查询================");
-            authorizitionMap = new HashMap<>();
-            //        4.如果不存在 ，再查数据库，同时将查出来的数据再次保存到redis
-            if (roleList == null) {
-                //查数据库
-                roleList = getRoleNameListByRole(userInfo.getUserId());
-                //从数据库中查询后，要再重新添加到redis缓存
-                authorizitionMap.put(userInfo.getAccount(), roleList);
+        if(rolesMap == null || rolesMap.get(userInfo.getAccount()) == null){//两个条件，任何一个为null，则说明当前用户角色没有被缓存
+            //根据用户ID查询角色列表
+            roleList = getRoleNameListByRole(userInfo.getUserId());
+            //查出来后，将当前角色保存到redis中
+            if (rolesMap == null){
+                rolesMap = new HashMap<>();
             }
-            if (permissionList == null) {
-                //查数据库
-            }
-
-            //当把角色列表和权限列表都进行缓存后，重新再将map对象，保存到redis中（保存时，如果数据的key是相同的，redis直接对同名的key数据进行覆盖 ）
-            redisTemplate.opsForValue().set(REDIS_AUTHORIZATION_KEY_ACCOUNT, authorizitionMap);
+            //上面查询当前角色列表后，再将该角色列表数据与当前用户的ID，作为value-key 保存到redis
+            rolesMap.put(userInfo.getAccount(),roleList);
+            //更新Redis中的数据
+            redisTemplate.boundValueOps(REDIS_ROLELIST).set(rolesMap);
+        }else{
+            roleList = ((HashMap<String, List>) redisTemplate.boundValueOps(REDIS_ROLELIST)).get(userInfo.getAccount());
         }
-        //经过上面的判断后，最终得到当前用户的角色列表和权限列表即是 roleList和permissionList的数据
+        //将最终取出来的数据给 授权的返回对象
         authorizationInfo.addRoles(roleList);
-        authorizationInfo.addStringPermissions(permissionList);
+
+        //判断权限的查询
 
         return authorizationInfo;
     }
