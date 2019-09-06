@@ -6,6 +6,7 @@ import com.example.service.SysModuleService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,9 +29,9 @@ public class LoginController {
 //    public String initIndex(){
 //        return "index";
 //    }
-
     @RequestMapping("/login")
     public String login(Model model,UserInfo userInfo) {
+
         UsernamePasswordToken token = new UsernamePasswordToken(userInfo.getAccount(), userInfo.getPassword());
         try {
             SecurityUtils.getSubject().login(token);//这一行操作成功，则表示用户登录成功
