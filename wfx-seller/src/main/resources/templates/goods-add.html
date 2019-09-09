@@ -33,20 +33,20 @@
 
 <body style="">
 
-    <!-- head start-->
+<!-- head start-->
 
-    <div class="navbar-container" id="navbar-container">
-        <div class="navbar-header pull-left">
-            <a href="http://localhost:8081/cust/index" class="navbar-brand">
-                <small>
-                    <i class="icon-leaf"></i>
-                    微信公众号盈利平台-商户后台管理
-                </small>
-            </a><!-- /.brand -->
-        </div><!-- /.navbar-header -->
+<div class="navbar-container" id="navbar-container">
+    <div class="navbar-header pull-left">
+        <a href="http://localhost:8081/cust/index" class="navbar-brand">
+            <small>
+                <i class="icon-leaf"></i>
+                微信公众号盈利平台-商户后台管理
+            </small>
+        </a><!-- /.brand -->
+    </div><!-- /.navbar-header -->
 
-    </div><!-- /.container -->
-    <!-- head over-->
+</div><!-- /.container -->
+<!-- head over-->
 </div>
 
 <div class="main-container" id="main-container">
@@ -71,7 +71,7 @@
                     </h1>
                 </div>
 
-                <form method="post" name="copy_form" id="copy_form" action="http://localhost:8081/cust/goods/add"
+                <form method="post" name="copy_form" id="copy_form" action="/good/saveGood"
                       enctype="multipart/form-data">
                     <div class="widget-main">
                         <input type="hidden" id="sku_str" name="sku_str" value="">
@@ -96,7 +96,7 @@
                                     <span class="red">*</span><strong>商品名称：</strong>
                                 </td>
                                 <td>
-                                    <input type="text" id="good_name" name="good_name" value="">
+                                    <input type="text" id="goodName" name="goodName" value="">
                                 </td>
 
                             </tr>
@@ -104,7 +104,7 @@
                             <tr>
                                 <td align="right"><span class="red">*</span><strong>商品类型：</strong></td>
                                 <td>
-                                    <select name="type_id" id="type_id" style="width:252px;font-size:14px"
+                                    <select name="typeId" id="type_id" style="width:252px;font-size:14px"
                                             class="selectBox">
                                         <option value="">请选择...</option>
 
@@ -132,14 +132,14 @@
                             <tr>
                                 <td align="right"><span class="red">*</span><strong>排序编号：</strong></td>
                                 <td>
-                                    <input type="text" id="order_no" name="order_no" onkeyup="checkVal2(this);"
+                                    <input type="text" id="order_no" name="orderNo" onkeyup="checkVal2(this);"
                                            value="">
                                 </td>
                             </tr>
                             <tr>
                                 <td align="right"><span class="red">*</span><strong>购买作弊值：</strong></td>
                                 <td>
-                                    <input type="text" id="sell_num" name="sell_num" onkeyup="checkVal2(this);"
+                                    <input type="text" id="sell_num" name="sellNum" onkeyup="checkVal2(this);"
                                            value="">
                                 </td>
                             </tr>
@@ -149,7 +149,7 @@
                                     <div id="sm_div">
 
                                         <img src="static/no_pic.png" id="sm_yl"
-                                             style="width:240px;height:150px;border:1px solid #ddd;">
+                                             style="height:150px;border:1px solid #ddd;">
 
 
                                     </div>
@@ -158,7 +158,7 @@
                             <tr>
                                 <td align="right"><span class="red">*</span><strong>上传图片：</strong></td>
                                 <td>
-                                    <input type="file" name="uploadGood" id="smfile&quot;"
+                                    <input type="file" name="pic1" id="smfile&quot;"
                                            style="width:540px;height:22px;cursor:hand" class="fileinput"
                                            onchange="checkImgType(this);setPreview(this,&#39;sm_yl&#39;,&#39;sm_div&#39;,240,150);">
                                 </td>
@@ -170,7 +170,7 @@
                                     <div id="sm_div1">
 
                                         <img src="static/no_pic.png" id="sm_yl1"
-                                             style="width:240px;height:150px;border:1px solid #ddd;">
+                                             style="height:150px;border:1px solid #ddd;">
 
 
                                     </div>
@@ -179,7 +179,7 @@
                             <tr>
                                 <td align="right"><span class="red">*</span><strong>上传图片2：</strong></td>
                                 <td>
-                                    <input type="file" name="uploadGood" id="smfile1&quot;"
+                                    <input type="file" name="pic2" id="smfile1&quot;"
                                            style="width:540px;height:22px;cursor:hand" class="fileinput"
                                            onchange="checkImgType(this);setPreview(this,&#39;sm_yl1&#39;,&#39;sm_div1&#39;,240,150);">
                                 </td>
@@ -191,7 +191,7 @@
                                     <div id="sm_div2">
 
                                         <img src="static/no_pic.png" id="sm_yl2"
-                                             style="width:240px;height:150px;border:1px solid #ddd;">
+                                             style="height:150px;border:1px solid #ddd;">
 
 
                                     </div>
@@ -200,7 +200,7 @@
                             <tr>
                                 <td align="right"><span class="red">*</span><strong>上传图片3：</strong></td>
                                 <td>
-                                    <input type="file" name="uploadGood" id="smfile2&quot;"
+                                    <input type="file" name="pic3" id="smfile2&quot;"
                                            style="width:540px;height:22px;cursor:hand" class="fileinput"
                                            onchange="checkImgType(this);setPreview(this,&#39;sm_yl2&#39;,&#39;sm_div2&#39;,240,150);">
                                 </td>
@@ -209,7 +209,7 @@
                             <tr>
                                 <td align="right"><span class="red">*</span><strong>推广说明：</strong></td>
                                 <td>
-                                    <textarea id="promote_desc" name="promote_desc"
+                                    <textarea id="promoteDesc" name="promoteDesc"
                                               style="width:540px; height: 160px;"></textarea>
                                 </td>
                             </tr>
@@ -325,7 +325,7 @@
                                 <td>
 
 
-                                    <input type="checkbox" class="ace" id="copy_39201701" name="zcopy_id"
+                                    <input type="checkbox" class="ace" id="copy_39201701" name="zcopyId"
                                            value="39201701">
                                     <span class="lbl">&nbsp;<a
                                             href="http://localhost:8081/cust/goods/add#">12</a></span><br>
@@ -337,7 +337,7 @@
                             <tr>
                                 <td align="right"><strong>跳转说明：</strong></td>
                                 <td>
-                                    <textarea id="copy_desc" name="copy_desc"
+                                    <textarea id="copy_desc" name="copyDesc"
                                               style="width:540px; height:80px;"></textarea>
                                 </td>
                             </tr>
@@ -345,7 +345,7 @@
                             <tr>
                                 <td align="right"><strong>跳转地址：</strong></td>
                                 <td>
-                                    <input type="text" id="forward_link" name="forward_link" style="width:540px;"
+                                    <input type="text" id="forward_link" name="forwardLink" style="width:540px;"
                                            value="">
                                 </td>
                             </tr>
@@ -353,10 +353,7 @@
 
                             <tr>
                                 <td colspan="2" align="center">
-							             <span id="submit" onclick="submitData();" class="btn btn-lxg btn-primary">
-							               <i class="icon-save bigger-120"></i>
-							                保存
-							             </span>
+                                    <button type="submit" class="btn btn-lxg btn-primary">保存</button>
                                     <span id="back" onclick="goToPage(&#39;/cust/goods/list&#39;);"
                                           class="btn btn-lxg btn-undo">
 							             <i class="icon-undo bigger-120"></i>
@@ -450,199 +447,6 @@
 </script>
 <!-- menu over-->
 
-<script type="text/javascript">
-    var baseUrl = '';
-
-    function submitData() {
-        var gid = "";
-        var url = "cgood!saveGood.ct";
-        //var spc_id = getRadioValue('scopy_id');
-        var spc_ids = getCheckBoxValue('scopy_id');
-        var zon_ids = getCheckBoxValue('zcopy_id');
-        var copy_ids = getCheckBoxValue("gcopy");
-        if (isNull($("#good_name").val())) {
-            $.dialog.alert("对不起！商品名称不能为空！");
-            return false;
-        }
-
-        if (isNull($("#type_id").val())) {
-            $.dialog.alert("对不起！请选择商户分类！");
-            return false;
-        }
-
-        if (isNull($("#promote_desc").val())) {
-            $.dialog.alert("对不起！推广说明不能为空！");
-            return false;
-        }
-
-        if (isNull(copy_ids)) {
-            $.dialog.alert("对不起！请选择微信文案！");
-            return false;
-        }
-
-        /*if(isNull(spc_id)){
-          $.dialog.alert("对不起！请选择站内文案！",null,false);
-          return false;
-        }*/
-
-        if (isNull($("#order_no").val())) {
-            $.dialog.alert("对不起！排序编号不能为空！");
-            return false;
-        }
-
-        //处理sku
-        var tab_rows = document.getElementById('tcbg').rows.length
-        if (tab_rows == 1) {
-            $.dialog.alert("对不起！请先设置商品套餐！");
-            return false;
-        }
-
-        var ms = "";
-        var cb = "";
-        var jg = "";
-        var fc = "";
-        var kffc = "";
-        for (var i = 0; i < tab_rows - 1; i++) {
-
-            if (!isNull($("#sku" + (i + 1)).val())) {
-                ms += $("#sku" + (i + 1)).val() + "|";
-            }
-
-            if (!isNull($("#cb" + (i + 1)).val())) {
-                cb += $("#cb" + (i + 1)).val() + "|";
-            }
-
-            if (!isNull($("#jg" + (i + 1)).val())) {
-                jg += $("#jg" + (i + 1)).val() + "|";
-            }
-
-            if (!isNull($("#fc" + (i + 1)).val())) {
-                fc += $("#fc" + (i + 1)).val() + "|";
-            }
-
-            if (!isNull($("#kffc" + (i + 1)).val())) {
-                kffc += $("#kffc" + (i + 1)).val() + "|";
-            }
-
-        }
-
-        var sku_str = "";
-        for (var i = 0; i < tab_rows - 1; i++) {
-
-            if (!isNull($("#sku_id_" + (i + 1)).val())) {
-                sku_str += $("#sku_id_" + (i + 1)).val() + "|";
-            } else {
-                sku_str += "newid|";
-            }
-
-            if (!isNull($("#sku" + (i + 1)).val())) {
-                sku_str += $("#sku" + (i + 1)).val() + "|";
-            }
-
-            if (!isNull($("#cb" + (i + 1)).val())) {
-                sku_str += $("#cb" + (i + 1)).val() + "|";
-            }
-
-            if (!isNull($("#jg" + (i + 1)).val())) {
-                sku_str += $("#jg" + (i + 1)).val() + "|";
-            }
-
-            if (!isNull($("#fc" + (i + 1)).val())) {
-                sku_str += $("#fc" + (i + 1)).val() + "|";
-            }
-
-            if (!isNull($("#kffc" + (i + 1)).val())) {
-                sku_str += $("#kffc" + (i + 1)).val() + "|";
-            }
-
-            sku_str += "$";
-        }
-
-        //验证商品是否已经存在
-        if (checkGoodName($("#good_name").val(), gid) == 'true') {
-            $.dialog.alert("对不起！您已经录入同名的商品了！");
-            return false;
-        }
-
-        $.dialog.confirm('你确定要提交数据吗？', function () {
-            $.dialog.tips('数据保存中...', 600, 'loading.gif');
-            var sform = document.copy_form;
-            if (sform) {
-                sform.action = baseUrl + "/" + url;
-                $('#sku_str').val(sku_str);
-                $('#sku_title').val(ms);
-                $('#sku_cost').val(cb);
-                $('#sku_price').val(jg);
-                $('#sku_pmoney').val(fc);
-                $('#service_money').val(kffc);
-                $('#copy_id').val(copy_ids);
-                $('#spc_id').val(spc_ids);
-                $('#zon_id').val(zon_ids);
-
-                setTimeout(function () {
-                    sform.submit();
-                }, 500);
-            }
-        });
-
-    }
-
-    //验证商户是否在使用
-    function checkGoodName(name, gid) {
-        var param = "good_id=" + gid + "&good_name=" + name + "&now=" + new Date().getTime();
-        return commonLoad("cust/goods/check", param, "post");
-    }
-
-    var tags = "";
-    if (tags != "") {
-        var com_obj = document.getElementsByName("tags");
-        for (var j = 0; j < com_obj.length; j++) {
-            if (tags.indexOf(com_obj[j].value) != -1) {
-                com_obj[j].checked = true;
-            } else {
-                com_obj[j].checked = false;
-
-            }
-        }
-    }
-
-    var copys = "";
-    if (copys != "") {
-        var com_obj = document.getElementsByName("gcopy");
-        for (var j = 0; j < com_obj.length; j++) {
-            if (copys.indexOf(com_obj[j].value) != -1) {
-                com_obj[j].checked = true;
-            } else {
-                com_obj[j].checked = false;
-            }
-        }
-    }
-
-    var spc_ids = "";
-    if (spc_ids != "") {
-        var com_obj = document.getElementsByName("scopy_id");
-        for (var j = 0; j < com_obj.length; j++) {
-            if (spc_ids.indexOf(com_obj[j].value) != -1) {
-                com_obj[j].checked = true;
-            } else {
-                com_obj[j].checked = false;
-            }
-        }
-    }
-
-    var zon_ids = "";
-    if (zon_ids != "") {
-        var com_obj = document.getElementsByName("zcopy_id");
-        for (var j = 0; j < com_obj.length; j++) {
-            if (zon_ids.indexOf(com_obj[j].value) != -1) {
-                com_obj[j].checked = true;
-            } else {
-                com_obj[j].checked = false;
-            }
-        }
-    }
-
-</script>
 
 
 <div id="ldg_dragmask"

@@ -19,4 +19,5 @@ shiro:
   web:
     enabled: true
   loginUrl: /login.html
-
+server:
+  port: 8081

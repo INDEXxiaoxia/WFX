@@ -10,6 +10,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import tk.mybatis.mapper.entity.Example;
 
@@ -40,8 +41,8 @@ public class WfxRealm extends AuthorizingRealm {
 
 //        1.当每次进入到授权验证方法时，先去redis中查询
             // 1)先根据用户的帐号，查询角色，如果redis中，查不出来，则去数据库中查
-            HashMap<String,List> rolesMap = (HashMap<String, List>) redisTemplate.boundValueOps(REDIS_ROLELIST);
-            //2）注意：获取的rolesMap，它里的key就是每个用户的帐号
+        Object roles_map = redisTemplate.boundValueOps(REDIS_ROLELIST);
+        //2）注意：获取的rolesMap，它里的key就是每个用户的帐号
 //            if (rolesMap == null){//说明所有用户的角色都没有被缓存,那么查数据库
 //
 //            }else{//如果这个不为空，说明有用户的角色是在缓存中，再次判断，当前用户的角色列表是否被缓存
@@ -51,12 +52,12 @@ public class WfxRealm extends AuthorizingRealm {
 //            }
             //上面的判断合并之后，优化判断之后的效果，如下
         List<String> roleList = new ArrayList<>();
-        if(rolesMap == null || rolesMap.get(userInfo.getAccount()) == null){//两个条件，任何一个为null，则说明当前用户角色没有被缓存
-            //根据用户ID查询角色列表
-            roleList = getRoleNameListByRole(userInfo.getUserId());
-            //查出来后，将当前角色保存到redis中
-            if (rolesMap == null){
-                rolesMap = new HashMap<>();
+
+        if(roles_map != null){//两个条件，任何一个为null，则说明当前用户角色没有被缓存
+            HashMap<String,List<String>> rolesMap = (HashMap<String, List<String>>) roles_map;
+            if(rolesMap.get(userInfo.getAccount()) != null) {
+                //根据用户ID查询角色列表
+                roleList = getRoleNameListByRole(userInfo.getUserId());
             }
             //上面查询当前角色列表后，再将该角色列表数据与当前用户的ID，作为value-key 保存到redis
             rolesMap.put(userInfo.getAccount(),roleList);

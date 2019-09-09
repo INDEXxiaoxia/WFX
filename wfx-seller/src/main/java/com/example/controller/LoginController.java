@@ -15,6 +15,8 @@ public class LoginController {
         UsernamePasswordToken token = new UsernamePasswordToken(wxbCustomer.getLoginName(),wxbCustomer.getLoginPwd());
         SecurityUtils.getSubject().login(token);
 
+        //跳转到 添加商品的页面前，可以针对展示的页面中，需要初始化的数据，先进行查询
+
         return "goods-add";
     }
 
