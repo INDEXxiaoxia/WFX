@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.model.WxbGood;
+import com.example.model.vo.Result;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface GoodService {
      * @return
      */
     List<WxbGood> findGoodByParam(WxbGood param);
+
+    Result updateStateByGoodId(String goodId, String state);
 }

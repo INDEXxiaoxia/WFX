@@ -43,9 +43,10 @@
                  <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d' })"
                         id="logmax" class="input-text Wdate" style="width:120px;">-->
 
-                <input type="text" name="goodName" id="" placeholder=" 产品名称" style="width:250px" class="input-text" th:value="${param.goodName}">
-                <input type="hidden" id="selectedState" th:value="${param.state}">
-                <select id="stateSelect"  th:name="state">
+                <input type="text" name="goodName" id="" placeholder=" 产品名称" style="width:250px" class="input-text"
+                       th:value="${param.goodName}">
+                <input type="text" id="selectedState" th:value="${param.state}">
+                <select id="stateSelect" th:name="state">
                     <option value="">--请选择--</option>
                     <option value="0">待审核</option>
                     <option value="1">已上架</option>
@@ -83,14 +84,23 @@
                     </td>
                     <td class="td-status"><span class="label label-success radius"><label th:text="${good.stateStr}"> 已发布</label></span>
                     </td>
-                    <td class="td-manage"><a style="text-decoration:none" onClick="product_stop(this,'10001')"
-                                             href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a> <a
-                            style="text-decoration:none" class="ml-5"
-                            onClick="product_edit('产品编辑','product-add.html','10001')" href="javascript:;" title="编辑"><i
-                            class="Hui-iconfont">&#xe6df;</i></a> <a style="text-decoration:none" class="ml-5"
-                                                                     onClick="product_del(this,'10001')"
-                                                                     href="javascript:;" title="删除"><i
-                            class="Hui-iconfont">&#xe6e2;</i></a></td>
+                    <td class="td-manage">
+                        <a style="text-decoration:none"
+                           th:onclick="javascript:product_oper(this,[[${good.goodId}]],[[${good.state}]])"
+                           href="javascript:;" title="下架">
+                            <i class="Hui-iconfont">&#xe6de;</i>
+                        </a>
+                        <a style="text-decoration:none" class="ml-5"
+                           onClick="product_edit('产品编辑','product-add.html','10001')"
+                           href="javascript:;" title="编辑">
+                            <i class="Hui-iconfont">&#xe6df;</i>
+                        </a>
+                        <a style="text-decoration:none" class="ml-5"
+                           onClick="product_del(this,'10001')"
+                           href="javascript:;" title="删除">
+                            <i class="Hui-iconfont">&#xe6e2;</i>
+                        </a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -202,23 +212,48 @@
             });
     }
 
+    function product_oper(obj, id, state) {
+        if (state == 0) {//待审核
+            product_start(obj, id);
+        } else if (state == 1) {//已上架
+            product_stop(obj, id);
+        } else if (state == 2) {// 已下架
+            product_start(obj, id);
+        }
+    }
+
     /*产品-下架*/
     function product_stop(obj, id) {
         layer.confirm('确认要下架吗？', function (index) {
-            $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="product_start(this,id)" href="javascript:;" title="发布"><i class="Hui-iconfont">&#xe603;</i></a>');
-            $(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已下架</span>');
-            $(obj).remove();
-            layer.msg('已下架!', {icon: 5, time: 1000});
+            //当点击确定时，则进入到方法体中
+            //如果进入到当前这个方法体中则可以执行相应的操作
+            $.get("/good/updateStateByGoodId?goodId=" + id + "&state=2", function (data) {
+                if (data.success) {
+                    $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="product_start(this,id)" href="javascript:;" title="发布"><i class="Hui-iconfont">&#xe603;</i></a>');
+                    $(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已下架</span>');
+                    $(obj).remove();
+                    layer.msg('已下架!', {icon: 5, time: 1000});
+                } else {
+                    alert(data.message);
+                }
+            });
+
         });
     }
 
     /*产品-发布*/
     function product_start(obj, id) {
         layer.confirm('确认要发布吗？', function (index) {
-            $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="product_stop(this,id)" href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a>');
-            $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已发布</span>');
-            $(obj).remove();
-            layer.msg('已发布!', {icon: 6, time: 1000});
+            $.get("/good/updateStateByGoodId?goodId=" + id + "&state=1", function (data) {
+                if (data.success) {
+                    $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="product_stop(this,id)" href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a>');
+                    $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已上架</span>');
+                    $(obj).remove();
+                    layer.msg('已发布!', {icon: 6, time: 1000});
+                } else {
+                    alert(data.message);
+                }
+            });
         });
     }
 
@@ -259,12 +294,12 @@
 </script>
 <script type="text/javascript">
     $(function () {//jquery语法：界面加载完成后，才会加载代码块的JS脚本
-            //1. 先获取 select的所有child元素
+        //1. 先获取 select的所有child元素
         $("#stateSelect option").each(function () {
             //2. 循环每个child元素，获取它的value属性的值
-            if ($("#selectedState").val() == $(this).val()){
+            if ($("#selectedState").val() == $(this).val()) {
                 //3. 将这个属性的值 与 $("#state")埋比较，如果相等，则将当前这个child元素添加属性 ： selected='true'
-                $(this).attr("selected","true");
+                $(this).attr("selected", "true");
                 return;
             }
         })
