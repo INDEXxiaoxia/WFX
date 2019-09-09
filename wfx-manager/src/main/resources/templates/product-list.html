@@ -45,7 +45,7 @@
 
                 <input type="text" name="goodName" id="" placeholder=" 产品名称" style="width:250px" class="input-text" th:value="${param.goodName}">
                 <input type="hidden" id="selectedState" th:value="${param.state}">
-                <select id="stateSelect" th:name="state" th:selected="${param.state}">
+                <select id="stateSelect"  th:name="state">
                     <option value="">--请选择--</option>
                     <option value="0">待审核</option>
                     <option value="1">已上架</option>
@@ -260,9 +260,16 @@
 <script type="text/javascript">
     $(function () {//jquery语法：界面加载完成后，才会加载代码块的JS脚本
             //1. 先获取 select的所有child元素
-        $("#selectedState").childNodes;
+        $("#stateSelect option").each(function () {
             //2. 循环每个child元素，获取它的value属性的值
-            //3. 将这个属性的值 与 $("#state")埋比较，如果相等，则将当前这个child元素添加属性 ： selected='true'
+            if ($("#selectedState").val() == $(this).val()){
+                //3. 将这个属性的值 与 $("#state")埋比较，如果相等，则将当前这个child元素添加属性 ： selected='true'
+                $(this).attr("selected","true");
+                return;
+            }
+        })
+
+
     })
 </script>
 </body>
