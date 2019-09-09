@@ -1,9 +1,7 @@
 package com.example.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Arrays;
 import java.util.UUID;
 
 @Table
@@ -27,6 +25,8 @@ public class WxbGood {
     private String typeId;
     private String tags;
     private Long state;
+    @Transient
+    private String stateStr;
     private java.util.Date createTime;
     private Long toped;
     private Long recomed;
@@ -203,6 +203,15 @@ public class WxbGood {
         this.state = state;
     }
 
+    String[] stateArray = {"待审核","已上架","已下架"};
+
+    public String getStateStr() {
+        return stateArray[this.state.intValue()%3];
+    }
+
+    public void setStateStr(String stateStr) {
+        this.stateStr = stateStr;
+    }
 
     public java.util.Date getCreateTime() {
         return createTime;
@@ -341,6 +350,7 @@ public class WxbGood {
                 ", typeId='" + typeId + '\'' +
                 ", tags='" + tags + '\'' +
                 ", state=" + state +
+                ", stateStr='" + stateStr + '\'' +
                 ", createTime=" + createTime +
                 ", toped=" + toped +
                 ", recomed=" + recomed +
@@ -354,6 +364,7 @@ public class WxbGood {
                 ", isfdfk=" + isfdfk +
                 ", leixingId=" + leixingId +
                 ", kfqq='" + kfqq + '\'' +
+                ", stateArray=" + Arrays.toString(stateArray) +
                 '}';
     }
 }

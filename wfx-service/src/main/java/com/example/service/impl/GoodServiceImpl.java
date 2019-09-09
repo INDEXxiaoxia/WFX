@@ -3,10 +3,13 @@ package com.example.service.impl;
 import com.example.mapper.GoodMapper;
 import com.example.model.WxbGood;
 import com.example.service.GoodService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -22,5 +25,37 @@ public class GoodServiceImpl implements GoodService {
         //添加的商品，状态默认为“待审核 0”
         wxbGood.setState(0L);
         return goodMapper.insert(wxbGood)>0;
+    }
+
+    @Override
+    public List<WxbGood> findGoodByParam(WxbGood param) {
+        /*
+         * 封装查询条件
+         */
+        Example example = new Example(WxbGood.class);
+        if(param != null){
+            if(StringUtils.isNotBlank(param.getGoodName())){
+                example.and().andLike("goodName","%"+param.getGoodName()+"%");
+            }
+            //根据价格区间进行查询
+            //由于价格存储的是多个SKU的价格，且价格之间采用"|"分隔，所以查询时，可以先拆分，再查询
+//        //由于价格是包含着多个SKU的价格，这时，考虑思路问题
+//        if (StringUtils.isNotBlank(param.getSkuPrice())){
+//            String[] prices = param.getSkuPrice().split("|");
+//
+//        }
+            //根据state查询数据
+            if(param.getState() != null){
+                example.and().andEqualTo("state",param.getState());
+            }
+        }
+
+
+        //执行查询
+        List<WxbGood> wxbGoods = goodMapper.selectByExample(example);
+
+
+
+        return wxbGoods;
     }
 }
