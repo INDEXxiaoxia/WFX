@@ -1,0 +1,31 @@
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <base th:href="${#request.getContextPath()}+'/'">
+    <title>支付界面</title>
+
+    <script type="text/javascript" src="plugins/qrious.min.js"></script>
+    <script type="text/javascript" src="plugins/jquery/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+<h1>进入到支付界面</h1>
+
+<label th:text="${out_trade_no}">支付的订单号</label>
+<input id="codeUrl" type="text" size="30" th:value="${code_url}">
+<br/>
+<!-- 定义一个img的标签，给一个ID,然后由qrious插件来生成 二维码-->
+<img  id="qrcodeImg">
+</body>
+
+<script type="text/javascript">
+    $(function () {
+        //生成二维码
+        var qr=new QRious({
+            element:document.getElementById('qrcodeImg'),//指定显示生成后的二维码的img标签的ID
+            size:250,// 显示生成的二维码尺寸
+            value:$("#codeUrl").val(),// 实际要进行转换的数据
+            level:'H'//精度度
+        });
+    })
+</script>
+</html>
