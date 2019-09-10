@@ -1,0 +1,38 @@
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <base th:href="${#request.getContextPath()}+'/'">
+    <title>kindeditor富客户端编辑器的用法</title>
+    <script charset="utf-8" src="plugins/kindeditor/kindeditor-all-min.js"></script>
+    <script charset="utf-8" src="plugins/kindeditor/lang/zh-CN.js"></script>
+    <script>
+        KindEditor.ready(function (K) {
+            window.editor = K.create('#editor_id',{
+                //这里所编写的就是对当前编辑器进行各项属性初始化的地方
+                items:[
+                    'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
+                    'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+                    'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+                    'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+                    'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                    'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
+                    'flash', 'media', 'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+                    'anchor', 'link', 'unlink', '|', 'about'
+                ],
+                allowFileManager:true,
+                fileManagerJson:"/demo/upload",
+                uploadJson:"/demo/fileUplad"
+            });
+        });
+    </script>
+</head>
+<body>
+<form action="" method="post"></form>
+<textarea id="editor_id" name="content" style="width:700px;height:300px;">
+    &lt;strong&gt;HTML内容&lt;/strong&gt;
+    </textarea>
+<br/>
+<input type="submit" value="保存">
+</form>
+</body>
+</html>

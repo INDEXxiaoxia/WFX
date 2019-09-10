@@ -7,7 +7,6 @@ spring:
     servlet:
       content-type: text/html
     cache: false
-    mode: LEGACYHTML5
   redis:
     host: 127.0.0.1
     password:
