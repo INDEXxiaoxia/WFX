@@ -62,6 +62,7 @@ public class DemoController {
     @RequestMapping("/fileUploadManager")
     @ResponseBody
     public HashMap fileUploadManager() {
+        //这行代码：获取当前工程中，文件名为static的文件目录的完整地址
         String path = ClassUtils.getDefaultClassLoader().getResource("static").getPath();
         File currentPathFile = new File(path);
         //遍历目录取的文件信息
@@ -73,11 +74,11 @@ public class DemoController {
                 Hashtable<String, Object> hash = new Hashtable<String, Object>();
                 String fileName = file.getName();
                 if (file.isDirectory()) {
-                    hash.put("is_dir", true);
-                    hash.put("has_file", (file.listFiles() != null));
-                    hash.put("filesize", 0L);
-                    hash.put("is_photo", false);
-                    hash.put("filetype", "");
+                    hash.put("is_dir", true);// 是否为 文件夹
+                    hash.put("has_file", (file.listFiles() != null));// 是否有子目录（子文件）
+                    hash.put("filesize", 0L); // 文件（夹）的大小
+                    hash.put("is_photo", false);// 是否为图片类型
+                    hash.put("filetype", ""); //文件类型
                 } else if (file.isFile()) {
                     String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
                     hash.put("is_dir", false);
@@ -94,7 +95,7 @@ public class DemoController {
         HashMap result = new HashMap();
 //        result.put("moveup_dir_path", moveupDirPath);
 //        result.put("current_dir_path", "/");
-        result.put("current_url", "/");
+        result.put("current_url", "/");// 要查看的文件，全部以 根URL进行匹配
         result.put("total_count", fileList.size());
         result.put("file_list", fileList);
         return result;
@@ -111,5 +112,11 @@ public class DemoController {
         }
         downloadFile.close();
         input.close();
+    }
+
+
+    @RequestMapping("/init_baidumap")
+    public String initBaiduMap(){
+        return "baidu_map_demo";
     }
 }

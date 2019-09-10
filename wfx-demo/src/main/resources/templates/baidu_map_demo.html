@@ -1,51 +1,26 @@
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="utf-8">
-    <base th:href="${#request.getContextPath()}+'/'">
-    <title>kindeditor富客户端编辑器的用法</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
     <style type="text/css">
         b {
             color: red;
             font-weight: bolder;
         }
     </style>
-    <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=fI6UwWwNBHQgg4vRPxFqaexsw3zaI5GU"></script>
-    <script charset="utf-8" src="plugins/kindeditor/kindeditor-all-min.js"></script>
-    <script charset="utf-8" src="plugins/kindeditor/lang/zh-CN.js"></script>
-    <script>
-        KindEditor.ready(function (K) {
-            window.editor = K.create('#editor_id', {
-                //这里所编写的就是对当前编辑器进行各项属性初始化的地方
-                items: [
-                    'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
-                    'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
-                    'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
-                    'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
-                    'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
-                    'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
-                    'flash', 'media', 'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
-                    'anchor', 'link', 'unlink', '|', 'about'
-                ],
-                allowFileManager: true,
-                fileManagerJson: "/demo/fileUploadManager",
-                uploadJson: "/demo/fileUpload"
-            });
-        });
-    </script>
-</head>
-<body>
-<form action="" method="post"></form>
 
+    <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=fI6UwWwNBHQgg4vRPxFqaexsw3zaI5GU"></script>
+    <title>关键字输入提示词条</title>
+</head>
+
+<body>
+<!--<div id="l-map"></div>-->
 <div id="r-result">请输入:<input type="text" id="suggestId" size="20" value="百度" style="width:150px;"/></div>
 <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
-<textarea id="editor_id" name="content" style="width:700px;height:300px;">
-    &lt;strong&gt;HTML内容&lt;/strong&gt;
-    </textarea>
-<br/>
-<input type="submit" value="保存">
-</form>
-</body>
 
+</body>
+</html>
 <script type="text/javascript">
     // 百度地图API功能
     function G(id) {
@@ -84,5 +59,3 @@
     });
 
 </script>
-
-</html>
