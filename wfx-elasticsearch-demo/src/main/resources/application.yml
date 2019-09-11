@@ -29,10 +29,11 @@ spring:
       max-file-size: 5MB
       # 每次请求总文件大小
       max-request-size: 10MB
+  # 这种方式配置，前缀 spring.data.elasticsearch 配置的是  spring data 框架与 elasticsearch整合后的配置信息
   data:
     elasticsearch:
-      cluster-nodes: 127.0.0.1:9300
-      cluster-name: elasticsearch
+      cluster-nodes: 127.0.0.1:9300 # 连接的es 的服务器地址（ip+端口）
+      cluster-name: elasticsearch # 连接的es服务的名称（名称不可以重复）
 mybatis:
   mapper-locations: classpath*:mapper/*.xml,classpath*:**/*Mapper.xml
   #IDENTITY: MYSQL #取回主键的方式
