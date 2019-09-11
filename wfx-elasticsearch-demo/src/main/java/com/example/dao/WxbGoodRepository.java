@@ -1,7 +1,26 @@
 package com.example.dao;
 
 import com.example.model.WxbGood;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
+import java.util.List;
+
 public interface WxbGoodRepository extends ElasticsearchRepository<WxbGood,String> {
+
+
+    //根据指定的属性名进行查询
+    List<WxbGood> findByTypeId(String typeId);
+    //根据多个条件进行查询
+    //如果查询的方法中包含多个属性，那么后面参数的个数一定要与方法中包含的属性个数一致
+    List<WxbGood> findByTypeIdAndState(String typeId,String state);
+
+    List<WxbGood> findByTypeIdOrState(String typeId,String state);
+
+    //模糊查询
+    List<WxbGood> findByGoodNameLike(String goodName);
+
+    Page<WxbGood> findByGoodNameLike(String goodName, Pageable pageable);
+
 }
