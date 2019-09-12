@@ -17,6 +17,8 @@ public interface WxbGoodRepository extends ElasticsearchRepository<WxbGood,Strin
     List<WxbGood> findByTypeIdAndState(String typeId,String state);
 
     List<WxbGood> findByTypeIdOrState(String typeId,String state);
+    //根据一个关键词，同时查询goodName和promote_desc字段中都包含关键字的数据
+    List<WxbGood> findByGoodNameLikeOrPromoteDescLike(String goodName,String promoteDesc);
 
     //模糊查询
     List<WxbGood> findByGoodNameLike(String goodName);

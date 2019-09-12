@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -30,6 +29,16 @@ public class WfxElasticsearchDemoApplicationTests {
 
     @Autowired
     private WxbGoodRepository wxbGoodRepository;
+
+
+    @Test
+    public void importDataToEs(){
+        List<WxbGood> wxbGoods = goodMapper.selectAll();
+        for (WxbGood wxbGood : wxbGoods) {
+            wxbGoodRepository.save(wxbGood);
+        }
+    }
+
     @Test
     public void contextLoads() {
         WxbGood wxbGood = goodMapper.selectByPrimaryKey("28770956-4811-442c-a89c-c2c30fafe6de");
@@ -106,6 +115,17 @@ public class WfxElasticsearchDemoApplicationTests {
         for (WxbGood wxbGood : page.getContent()) {
             System.out.println(wxbGood);
         }
+    }
+
+    @Test
+    public void testFindByKeyword(){
+        String keyword = "华为";
+
+        List<WxbGood> list = wxbGoodRepository.findByGoodNameLikeOrPromoteDescLike("%" + keyword + "%", "%" + keyword + "%");
+        for (WxbGood wxbGood : list) {
+            System.out.println(wxbGood);
+        }
+
     }
 
 }

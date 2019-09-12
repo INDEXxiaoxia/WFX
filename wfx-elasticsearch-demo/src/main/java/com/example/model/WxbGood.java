@@ -16,9 +16,7 @@ public class WxbGood {
     @org.springframework.data.annotation.Id
     @Field(type = FieldType.Text)
     private String goodId;
-    @Field(type = FieldType.Text,analyzer = "ik_max_word",store = true)
-    private String goodName;
-    @Field(type = FieldType.Text,analyzer = "ik_max_word",store = true)
+    private String goodName;// 不配置分词器，意味着使用es默认的分词器（一个字一个词）
     private String customerId;
     private String goodPic;
     private String goodPic1;
@@ -346,10 +344,6 @@ public class WxbGood {
         return "WxbGood{" +
                 "goodId='" + goodId + '\'' +
                 ", goodName='" + goodName + '\'' +
-                ", customerId='" + customerId + '\'' +
-                ", goodPic='" + goodPic + '\'' +
-                ", goodPic1='" + goodPic1 + '\'' +
-                ", goodPic2='" + goodPic2 + '\'' +
                 ", promoteDesc='" + promoteDesc + '\'' +
                 ", skuTitle='" + skuTitle + '\'' +
                 ", skuCost='" + skuCost + '\'' +
