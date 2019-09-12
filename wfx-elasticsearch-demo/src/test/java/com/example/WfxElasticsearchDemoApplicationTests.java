@@ -41,9 +41,10 @@ public class WfxElasticsearchDemoApplicationTests {
 
     @Test
     public void contextLoads() {
-        WxbGood wxbGood = goodMapper.selectByPrimaryKey("28770956-4811-442c-a89c-c2c30fafe6de");
-        wxbGood.setGoodId("38fd647c-fd55-47e4-8d13-810fb5b4ddfa");
-        wxbGood.setGoodName("2019年13月11日的测试数据");
+        WxbGood wxbGood = goodMapper.selectByPrimaryKey("73515420");
+//        wxbGood.setGoodId("73515420");
+//        wxbGood.setGoodName("2019年13月11日的测试数据");
+        wxbGood.setPromoteDesc("华为 HUAWEI P30 超感光徕卡三摄麒麟980AI智能芯片全面屏屏内指纹版手机8GB+128GB珠光贝母全网通双4G手机");
         //调用elastisearchRepository接口，将这个数据添加 ES的服务器中
         wxbGoodRepository.save(wxbGood);
 
