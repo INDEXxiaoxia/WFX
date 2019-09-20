@@ -28,7 +28,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-
+        <!-- spring data elasticsearch-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+        </dependency>
         <!-- 通用mapper : 原因：因为使用tkmapper时，需要实体类上，添加注解 -->
         <dependency>
             <groupId>tk.mybatis</groupId>

@@ -1,19 +1,36 @@
 package com.example.model;
 
-import javax.persistence.*;
-import java.util.Arrays;
-import java.util.UUID;
+import com.example.model.vo.WxbGoodVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.beans.ConversionNotSupportedException;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+//implements Serializable
 @Table
-public class WxbGood {
+@Document(indexName = "idx_wxb_good")
+public class WxbGood extends WxbGoodVO implements Cloneable, Serializable {
+
+
     @Id
+    @org.springframework.data.annotation.Id
+    @Field(type = FieldType.Text)
     private String goodId;
     private String goodName;
     private String customerId;
     private String goodPic;
     private String goodPic1;
     private String goodPic2;
+    @Field(type = FieldType.Text,analyzer = "ik_max_word",store = true)
     private String promoteDesc;
+    @Field(type = FieldType.Text,analyzer = "ik_max_word",store = true)
     private String skuTitle;
     private String skuCost;
     private String skuPrice;
@@ -40,8 +57,65 @@ public class WxbGood {
     private Long isfdfk;
     private Long leixingId;
     private String kfqq;
+    @Transient
+    private Long theleval;
+    @Transient
+    private List<String> SkuStringList;
+    @Transient
+    private List<String> tageStringList;
+
+    public List<String> getTageStringList() {
+        List<String> tageStringList = new ArrayList<>();
+        if (!(this.tags==""||this.tags==null)){
+            String[] split = this.tags.split(",");
+            tageStringList=Arrays.asList(split);
+        }else {
+            tageStringList=null;
+        }
+        return tageStringList;
+    }
 
 
+    public Long getTheleval() {
+        return theleval;
+    }
+
+    public void setTheleval(Long theleval) {
+        this.theleval = theleval;
+    }
+
+
+    public List<String> getSkuStringList() {
+        List<String> SkuStringList = new ArrayList<>();
+        if (this.getSkuTitle() != null && this.getSkuTitle() != ""&&this.getSkuTitle().length()!=0) {
+
+            String[] splitTitle = this.getSkuTitle().split("\\|");
+            String[] splitPrice = this.getSkuPrice().split("\\|");
+//            String[] splitCost = this.getSkuCost().split("|");
+            String[] splitPmoney = this.getSkuPmoney().split("\\|");
+            for (int i = 0; i < splitTitle.length; i++) {
+                SkuStringList.add(
+                        String.format("套餐:%s单价:%s提成:%s", splitTitle[i], splitPrice[i], splitPmoney[i])
+                );
+            }
+
+        } else {
+            SkuStringList.add("无套餐");
+        }
+        return SkuStringList;
+    }
+    @Override
+    public Object clone() {
+        WxbGood gg=new WxbGood();
+        try {
+            gg=(WxbGood)super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+
+        return gg;
+    }
+    
     public String getGoodId() {
         return goodId;
     }
@@ -203,10 +277,10 @@ public class WxbGood {
         this.state = state;
     }
 
-    String[] stateArray = {"待审核","已上架","已下架"};
+    String[] stateArray = {"待审核", "已上架", "已下架"};
 
     public String getStateStr() {
-        return stateArray[this.state.intValue()%3];
+        return stateArray[this.state.intValue() % 3];
     }
 
     public void setStateStr(String stateStr) {

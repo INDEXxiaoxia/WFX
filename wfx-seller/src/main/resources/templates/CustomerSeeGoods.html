@@ -1,0 +1,34 @@
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <base th:href="${#request.getContextPath()}+'/'">
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
+    <script src="/static/bootstrap.min.js"></script>
+    <title>CustomerSeeGoods</title>
+</head>
+<body>
+<table class="table table-hover table-bordered tab-content tab-pane table-condensed table-striped table-responsive">
+    <tr>
+        <th>¿</th>
+        <th>¿</th>
+        <th>¿</th>
+        <th>¿</th>
+        <th>¿</th>
+    </tr>
+    <tr th:each="good : ${goodList}">
+        <td th:text="${good.getGoodId()}"></td>
+        <td th:text="${good.getGoodName()}"></td>
+        <td th:text="${good.getCustomerId()}"></td>
+        <td  th:text="${#dates.format(good.getCreateTime(),'yyyy年MM月dd日HH:mm:ss')}"></td>
+        <td><img th:src="${good.getGoodPic()}" alt="" width="80px"></td>
+    </tr>
+</table>
+
+
+
+
+
+
+
+</body>
+</html>

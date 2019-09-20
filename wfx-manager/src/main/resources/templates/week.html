@@ -1,0 +1,40 @@
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <base th:href="${#request.getContextPath()}+'/'">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <script type="text/javascript" src="/plugins/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/plugins/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/plugins/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+</head>
+<body>
+<h1>WEEKTEST</h1>
+
+<div class="container">
+    <div class="panel">
+        <div class="panel-body">
+            <input type="text" placeholder="输入名称" id="mname">
+            <input type="text" placeholder="输入ID" id="mid">
+            <button type="button" onclick="ShowToView()">开始查询</button>
+        </div>
+        <div class="panel-body">
+            <iframe src="/week/find" frameborder="0" name="ToView" id="ToView"
+                    style="outline: black solid 1px;width: 100%;height: 800px"></iframe>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function ShowToView() {
+        mname = $("#mname").val();
+        mid = $("#mid").val();
+        srcc = "/week/find?mname=" + mname + "&mid=" + mid;
+        // ToView.location.href=srcc;
+        $("#ToView").attr("src", srcc);
+    }
+</script>
+</html>

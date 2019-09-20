@@ -35,19 +35,6 @@
 
 <!-- head start-->
 
-<div class="navbar-container" id="navbar-container">
-    <div class="navbar-header pull-left">
-        <a href="http://localhost:8081/cust/index" class="navbar-brand">
-            <small>
-                <i class="icon-leaf"></i>
-                微信公众号盈利平台-商户后台管理
-            </small>
-        </a><!-- /.brand -->
-    </div><!-- /.navbar-header -->
-
-</div><!-- /.container -->
-<!-- head over-->
-</div>
 
 <div class="main-container" id="main-container">
     <script type="text/javascript">
@@ -57,10 +44,7 @@
         }
     </script>
 
-    <div class="main-container-inner">
 
-
-        <div class="main-content">
             <div class="page-content">
                 <div class="page-header">
                     <h1>
@@ -96,7 +80,7 @@
                                     <span class="red">*</span><strong>商品名称：</strong>
                                 </td>
                                 <td>
-                                    <input type="text" id="goodName" name="goodName" value="">
+                                    <input type="text" id="good_name" name="goodName" value="">
                                 </td>
 
                             </tr>
@@ -209,7 +193,7 @@
                             <tr>
                                 <td align="right"><span class="red">*</span><strong>推广说明：</strong></td>
                                 <td>
-                                    <textarea id="promoteDesc" name="promoteDesc"
+                                    <textarea id="promote_desc" name="promoteDesc"
                                               style="width:540px; height: 160px;"></textarea>
                                 </td>
                             </tr>
@@ -353,7 +337,7 @@
 
                             <tr>
                                 <td colspan="2" align="center">
-                                    <button type="submit" class="btn btn-lxg btn-primary">保存</button>
+                                    <button type="button" class="btn btn-lxg btn-primary" onclick="submitData()">保存</button>
                                     <span id="back" onclick="goToPage(&#39;/cust/goods/list&#39;);"
                                           class="btn btn-lxg btn-undo">
 							             <i class="icon-undo bigger-120"></i>
@@ -368,13 +352,6 @@
 
             </div><!-- /.page-content -->
         </div><!-- /.main-content -->
-
-    </div><!-- /.main-container-inner -->
-
-    <a href="http://localhost:8081/cust/goods/add#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-        <i class="icon-double-angle-up icon-only bigger-110"></i>
-    </a>
-</div><!-- /.main-container -->
 
 <!-- menu start-->
 

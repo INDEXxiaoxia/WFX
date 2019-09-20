@@ -1,41 +1,45 @@
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<!-- saved from url=(0032)http://localhost:8081/cust/index -->
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <base th:href="${#request.getContextPath()}+'/'">
+    <link href="/static/default.css" rel="stylesheet" id="lhgdialoglink">
+
     <title>商户后台管理</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- head start-->
-
+    <link href="/static/default.css" rel="stylesheet" id="lhgdialoglink">
     <link rel="shortcut icon" href="http://localhost:8081/wxb/images/favicon.ico">
     <link rel="icon" type="image/gif" href="http://localhost:8081/wxb/images/favicon.gif">
-    <link href="./static/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./static/font-awesome.min.css">
+    <link href="/static/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/font-awesome.min.css">
     <!--[if IE 7]>
     <link rel="stylesheet" href="/customer/assets/css/font-awesome-ie7.min.css"/>
     <![endif]-->
-    <link rel="stylesheet" href="./static/font.css">
-    <link rel="stylesheet" href="./static/ace.min.css">
-    <link rel="stylesheet" href="./static/ace-rtl.min.css">
-    <link rel="stylesheet" href="./static/jquery-ui-1.10.3.custom.min.css">
-    <link rel="stylesheet" href="./static/jquery.gritter.css">
+    <link rel="stylesheet" href="/static/font.css">
+    <link rel="stylesheet" href="/static/ace.min.css">
+    <link rel="stylesheet" href="/static/ace-rtl.min.css">
+    <link rel="stylesheet" href="/static/jquery-ui-1.10.3.custom.min.css">
+    <link rel="stylesheet" href="/static/jquery.gritter.css">
     <!--[if lte IE 8]>
     <link rel="stylesheet" href="/customer/assets/css/ace-ie.min.css"/>
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="./static/public.css">
+    <link type="text/css" rel="stylesheet" href="/static/public.css">
 
-    <script src="./static/ace-extra.min.js"></script>
+    <script src="/static/ace-extra.min.js"></script>
     <!--[if lt IE 9]>
     <script src="/customer/assets/js/html5shiv.js"></script>
     <script src="/customer/assets/js/respond.min.js"></script>
     <![endif]-->
 
     <!-- 系统共用js文件 -->
-    <link rel="stylesheet" type="text/css" href="./static/ymPrompt.css">
-    <script type="text/javascript" src="./static/ymPrompt.js"></script>
-    <script type="text/javascript" src="./static/public.js"></script>
-    <script type="text/javascript" src="./static/publics.js"></script>
-    <script type="text/javascript" src="./static/table.js"></script>
-    <script type="text/javascript" src="./static/vdata.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/ymPrompt.css">
+    <script type="text/javascript" src="/static/ymPrompt.js"></script>
+    <script type="text/javascript" src="/static/public.js"></script>
+    <script type="text/javascript" src="/static/publics.js"></script>
+    <script type="text/javascript" src="/static/table.js"></script>
+    <script type="text/javascript" src="/static/vdata.js"></script>
 
     <!-- head over-->
     <style type="text/css">
@@ -48,7 +52,7 @@
             background-image: url(/images/mainimg/main_bg.jpg);
         }
     </style>
-    <link href="./static/WdatePicker.css" rel="stylesheet" type="text/css">
+    <link href="/static/WdatePicker.css" rel="stylesheet" type="text/css">
 </head>
 
 <body style="">
@@ -132,10 +136,10 @@
 
                 <li class="light-blue">
                     <a data-toggle="dropdown" href="http://localhost:8081/cust/index#" class="dropdown-toggle">
-                        <img class="nav-user-photo" src="./static/user.jpg" alt="Jason&#39;s Photo">
+                        <img class="nav-user-photo" src="/static/user.jpg" alt="Jason&#39;s Photo">
                         <span class="user-info">
 									<small>欢迎您,</small>
-									123456
+									<u th:text="${ThisCustomer.getCustomerName()}"></u>
 								</span>
 
                         <i class="icon-caret-down"></i>
@@ -245,14 +249,14 @@
 
                     <ul class="submenu">
                         <li>
-                            <a href="http://localhost:8081/cust/goods/list">
+                            <a href="/good/CustomerSeeGoods" target="showContent">
                                 <i class="icon-double-angle-right"></i>
                                 商品信息
                             </a>
                         </li>
 
                         <li>
-                            <a href="http://localhost:8081/cust/goods/add">
+                            <a href="/good/addGood" target="showContent">
                                 <i class="icon-pencil"></i>
                                 增加商品
                             </a>
@@ -513,69 +517,7 @@
             </div>
 
             <div class="page-content">
-
-                <div class="alert alert-block alert-info">
-                    <i class="icon-ok green"></i>
-                    欢迎使用
-                    <strong class="green">
-                        微信公众号盈利平台商户后台管理系统(v2.0)
-                    </strong>
-                    ,好用的CPS分销平台!
-                </div>
-
-                <div class="alert alert-block alert-success">
-
-                    <h4>
-                        <i class="icon-bar-chart blue"></i>
-                        您今天共产生<label class="red">0</label>条订单
-                        &nbsp;&nbsp;销售总额：￥<label class="red">0.0</label>元
-                        &nbsp;&nbsp;成本：￥<label class="red">0.0</label>元
-                        &nbsp;&nbsp;预计分成：￥<label class="red">0.0</label>元
-                        &nbsp;&nbsp;预计盈利：￥<label class="red">0</label>元
-                    </h4>
-
-                </div>
-
-                <div class="alert alert-block alert-info">
-
-                    <h4>
-                        <i class="icon-bar-chart blue"></i>
-                        您近7天共产生<label class="red">0</label>条订单
-                        &nbsp;&nbsp;销售总额：￥<label class="red">0.0</label>元
-                        &nbsp;&nbsp;成本：￥<label class="red">0.0</label>元
-                        &nbsp;&nbsp;预计分成：￥<label class="red">0.0</label>元
-                        &nbsp;&nbsp;预计盈利：￥<label class="red">0</label>元
-                    </h4>
-
-                </div>
-
-                <div class="alert alert-block alert-warning">
-
-                    <h4>
-                        <i class="icon-bar-chart blue"></i>
-                        您近30天共产生<label class="red">0</label>条订单
-                        &nbsp;&nbsp;销售总额：￥<label class="red">0.0</label>元
-                        &nbsp;&nbsp;成本：￥<label class="red">0.0</label>元
-                        &nbsp;&nbsp;预计分成：￥<label class="red">0.0</label>元
-                        &nbsp;&nbsp;预计盈利：￥<label class="red">0</label>元
-                    </h4>
-
-                </div>
-
-                <div class="alert alert-block alert-danger">
-
-                    <h4>
-                        <i class="icon-bar-chart blue"></i>
-                        您总共产生<label class="red">5</label>条订单
-                        &nbsp;&nbsp;销售总额：￥<label class="red">50.0</label>元
-                        &nbsp;&nbsp;成本：￥<label class="red">0.0</label>元
-                        &nbsp;&nbsp;预计分成：￥<label class="red">0.0</label>元
-                        &nbsp;&nbsp;预计盈利：￥<label class="red">50.0</label>元
-                    </h4>
-
-                </div>
-
-
+                <iframe src="/good/addGood" width="100%" height="1800px" name="showContent" style="border: none"></iframe>
             </div><!-- /.page-content -->
 
         </div><!-- /.main-content -->
@@ -592,7 +534,7 @@
 
 
 <!--[if !IE]> -->
-<script src="./static/jquery-2.0.3.min.js"></script>
+<script src="/static/jquery-2.0.3.min.js"></script>
 <!-- <![endif]-->
 <!--[if IE]>
 <script src="/customer/assets/js/jquery-1.10.2.min.js"></script>
@@ -610,24 +552,24 @@
 <script type="text/javascript">
     if ("ontouchend" in document) document.write("<script src='/customer/assets/js/jquery.mobile.custom.min.js'>" + "<" + "script>");
 </script>
-<script src="./static/bootstrap.min.js"></script>
-<script src="./static/typeahead-bs2.min.js"></script>
+<script src="/static/bootstrap.min.js"></script>
+<script src="/static/typeahead-bs2.min.js"></script>
 <!-- page specific plugin scripts -->
 <!--[if lte IE 8]>
 <script src="/customer/assets/js/excanvas.min.js"></script>
 <![endif]-->
 
-<script src="./static/jquery-ui-1.10.3.custom.min.js"></script>
-<script src="./static/jquery.ui.touch-punch.min.js"></script>
-<script src="./static/bootbox.min.js"></script>
-<script src="./static/jquery.gritter.min.js"></script>
+<script src="/static/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="/static/jquery.ui.touch-punch.min.js"></script>
+<script src="/static/bootbox.min.js"></script>
+<script src="/static/jquery.gritter.min.js"></script>
 
 <!-- ace scripts -->
-<script src="./static/ace-elements.min.js"></script>
-<script src="./static/ace.min.js"></script>
+<script src="/static/ace-elements.min.js"></script>
+<script src="/static/ace.min.js"></script>
 
-<script type="text/javascript" src="./static/WdatePicker.js"></script>
-<script type="text/javascript" src="./static/lhgdialog.min.js"></script>
+<script type="text/javascript" src="/static/WdatePicker.js"></script>
+<script type="text/javascript" src="/static/lhgdialog.min.js"></script>
 
 <script type="text/javascript">
     jQuery(function ($) {

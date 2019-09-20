@@ -4,10 +4,11 @@ import lombok.Data;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Data
 @Table
-public class WxbCustomer {
+public class WxbCustomer implements Serializable {
 
     @Id
     private String customerId;

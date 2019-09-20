@@ -1,5 +1,7 @@
 package com.example.config;
 
+import com.example.service.WfxRealm;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
@@ -18,8 +20,13 @@ public class ShiroConfig {
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chain = new DefaultShiroFilterChainDefinition();
         //哪些请求可以匿名访问
-
-        chain.addPathDefinition("/**","anon");
+        chain.addPathDefinition("/login**", "anon");
+//        chain.addPathDefinition("/wxbM/01", "anon");
+        chain.addPathDefinition("/login/l", "anon");
+        chain.addPathDefinition("/login/**", "anon");
+        chain.addPathDefinition("/static/**","anon");
+        chain.addPathDefinition("/login/logout*", "anon");
+        chain.addPathDefinition("/**","authc");
         return chain;
     }
 
@@ -27,9 +34,27 @@ public class ShiroConfig {
     @Bean
     public DefaultWebSecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        securityManager.setRealm(wfxRealm());
         return securityManager;
     }
 
+    // 3. 配置自定义的Realm
+    @Bean
+    public WfxRealm wfxRealm() {
+        WfxRealm wfxRealm = new WfxRealm();
+        //给realm认证类，添加加密方式。加密原理：md5
+        wfxRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        System.out.println("=================自定义realm构建成功");
+        return wfxRealm;
+    }
+    // 3.1 配置salt加密
+    @Bean
+    public HashedCredentialsMatcher hashedCredentialsMatcher() {
+        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+        hashedCredentialsMatcher.setHashAlgorithmName("md5");//设置加密方式
+        hashedCredentialsMatcher.setHashIterations(56);//加密循环的次数
+        return hashedCredentialsMatcher;
+    }
 
     // 4.初始化Shiro的生命周期
     @Bean

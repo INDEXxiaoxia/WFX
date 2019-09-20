@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="static/jquery-2.0.3.min.js"></script>
+    <link href="xx1.css" rel="stylesheet">
+    <script src="xx1.js"></script>
+</head>
+<body>
+<hr>
+警告信息框
+<button onclick="CloseMsgRightBox()">关闭</button>
+<button onclick="ShowMsgRightBox()">打开</button>
+
+<div id="MsgRightBox" style="display: none">
+    <div>提示信息！(^_−)☆</div>
+    <div>信息更新成功,请使用新信息重新登录！</div>
+    <span id="closeMsgRightBoxBtn" onclick="CloseMsgRightBox()">✖</span>
+</div>
+
+<script>
+    ShowMsgRightBox();
+</script>
+<hr>
+鼠标悬停提示框
+<a id="myTip">鼠标移在我上面有惊喜！</a>
+</body>
+
+
+</html>

@@ -35,7 +35,7 @@ public class WfxManagerApplicationTests {
     @Test
     public void getMd5Password(){
         String password = "123456";
-        String saltStr = "super2";
+        String saltStr = "ooo";
 
         String hashAlgorithmName = "MD5";//加密方式
         ByteSource salt = ByteSource.Util.bytes(saltStr);//以账号作为盐值

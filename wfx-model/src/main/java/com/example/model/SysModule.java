@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.io.Serializable;
 import java.util.List;
 
 /*
@@ -22,7 +23,7 @@ import java.util.List;
  */
 @Data
 @Table
-public class SysModule {
+public class SysModule  implements Serializable {
     @Id
     private String moduleId;
     private String moduleCode;

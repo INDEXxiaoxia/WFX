@@ -1,6 +1,8 @@
 package com.example.service.impl;
 
+import com.example.mapper.CustomerMapper;
 import com.example.mapper.GoodMapper;
+import com.example.model.WxbCustomer;
 import com.example.model.WxbGood;
 import com.example.model.vo.Result;
 import com.example.service.GoodService;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +21,31 @@ import java.util.UUID;
 public class GoodServiceImpl implements GoodService {
     @Autowired
     private GoodMapper goodMapper;
+    @Autowired
+    private CustomerMapper customerMapper;
+    @Override
+    public List<WxbGood> selectGoodListBy_cid_tid_stype(String customer_id, String type_id, String sort_type) {
+        Example example =new Example(WxbGood.class);
+        if (!(customer_id==null||customer_id=="")){
+            example.and().andEqualTo("customerId",customer_id);
+        }
+        if (!(type_id==null||type_id=="")){
+            example.and().andEqualTo("typeId",type_id);
+        }
+        if (!(sort_type==null||sort_type=="")){
+                example.orderBy("toped");
+        }
+        List<WxbGood> wxbGoodList = goodMapper.selectByExample(example);
+        Example cexampler=new Example(WxbCustomer.class);
+        for (WxbGood good : wxbGoodList) {
+            good.setWxbCustomer(customerMapper.selectByPrimaryKey(good.getCustomerId()));
+            good.setTheleval(customerMapper.selectByPrimaryKey(good.getCustomerId()).getLevel());
+            cexampler.clear();
+        }
+
+
+        return wxbGoodList;
+    }
 
     @Override
     public boolean saveGood(WxbGood wxbGood) {
@@ -72,4 +100,13 @@ public class GoodServiceImpl implements GoodService {
         }
         return new Result(false, "参数缺少,操作失败");
     }
+
+    @Override
+    public WxbGood selectBygoodId(String goodId) {
+        WxbGood wxbGood = goodMapper.selectByPrimaryKey(goodId);
+        wxbGood.setWxbCustomer(customerMapper.selectByPrimaryKey(wxbGood.getCustomerId()));
+        return wxbGood;
+    }
+
+
 }

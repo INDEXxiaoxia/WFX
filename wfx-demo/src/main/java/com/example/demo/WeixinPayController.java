@@ -27,7 +27,7 @@ public class WeixinPayController {
         param.put("appid", weixinPayConfig.getApp_id());//公众账号ID
         param.put("mch_id", weixinPayConfig.getMch_id());//商户
         param.put("nonce_str", WXPayUtil.generateNonceStr());//随机字符串
-        param.put("body", "精品java视频-1999");
+        param.put("body", "无码人兽500部");
         param.put("out_trade_no", out_trade_no);//交易订单号（是由系统内部来生成）
         param.put("total_fee", total_fee);//金额（分）
         param.put("spbill_create_ip", "127.0.0.1");

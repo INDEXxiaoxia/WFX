@@ -53,19 +53,19 @@ public class WfxRealm extends AuthorizingRealm {
             //上面的判断合并之后，优化判断之后的效果，如下
         List<String> roleList = new ArrayList<>();
 
-        if(roles_map != null){//两个条件，任何一个为null，则说明当前用户角色没有被缓存
-            HashMap<String,List<String>> rolesMap = (HashMap<String, List<String>>) roles_map;
-            if(rolesMap.get(userInfo.getAccount()) != null) {
-                //根据用户ID查询角色列表
+//        if(roles_map != null){//两个条件，任何一个为null，则说明当前用户角色没有被缓存
+//            HashMap<String,List<String>> rolesMap = (HashMap<String, List<String>>) roles_map;
+//            if(rolesMap.get(userInfo.getAccount()) != null) {
+//                //根据用户ID查询角色列表
                 roleList = getRoleNameListByRole(userInfo.getUserId());
-            }
-            //上面查询当前角色列表后，再将该角色列表数据与当前用户的ID，作为value-key 保存到redis
-            rolesMap.put(userInfo.getAccount(),roleList);
-            //更新Redis中的数据
-            redisTemplate.boundValueOps(REDIS_ROLELIST).set(rolesMap);
-        }else{
-            roleList = ((HashMap<String, List>) redisTemplate.boundValueOps(REDIS_ROLELIST)).get(userInfo.getAccount());
-        }
+//            }
+//            //上面查询当前角色列表后，再将该角色列表数据与当前用户的ID，作为value-key 保存到redis
+//            rolesMap.put(userInfo.getAccount(),roleList);
+//            //更新Redis中的数据
+//            redisTemplate.boundValueOps(REDIS_ROLELIST).set(rolesMap);
+//        }else{
+//            roleList = ((HashMap<String, List>) redisTemplate.boundValueOps(REDIS_ROLELIST)).get(userInfo.getAccount());
+//        }
         //将最终取出来的数据给 授权的返回对象
         authorizationInfo.addRoles(roleList);
 
